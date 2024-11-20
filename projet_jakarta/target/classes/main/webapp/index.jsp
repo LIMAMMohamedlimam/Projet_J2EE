@@ -7,8 +7,8 @@
 <body>
 <script>
     // Function to save the token to local storage
-    function saveTokenToLocalStorage(token) {
-        localStorage.setItem("token", token);
+    function saveTokenToLocalStorage(jwt) {
+        document.cookie = "jwt" + jwt
         console.log("Token saved to local storage");
     }
 </script>
@@ -16,22 +16,12 @@
 </h1>
 
 <h1>Request Data</h1>
-<ul>
-    <%-- Display request parameters --%>
-    <%
-        java.util.Enumeration<String> attributeNames = request.getAttributeNames();
-        while (attributeNames.hasMoreElements()) {
-            String attributeName = attributeNames.nextElement() ;
-            String attributeValue = request.getAttribute(attributeName).toString();
-    %>
-    <li><strong><%= attributeName %>:</strong> <%= attributeValue %></li>
-    <% } %>
-</ul>
+
 <script>
     // Retrieve the token from the JSP request
-    const token = "<%= request.getAttribute("token") != null ? request.getAttribute("token") : "" %>";
+    const token = {hello: 'world'};
     if (token) {
-        saveTokenToLocalStorage(token);
+        saveTokenAsCookie(token);
         console.log("Saved!");
     } else {
         console.log("No token parameter found in the request.");

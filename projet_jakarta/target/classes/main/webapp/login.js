@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.getElementById('loginForm');
+    const loginForm = document.getElementById('loginform');
 
     loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('email', email);
         formData.append('password', password);
 
-        fetch('/projet_jakarta_war_exploded/login-controller', {
+        fetch('http://localhost:8080/projet_jakarta_war_exploded/logincontroller', {
             method: 'POST',
             body: formData
         })
@@ -22,8 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                localStorage.setItem('jwtToken', data.token);
-                window.location.href = '/dashboard';
+                document.cookie = "data" + data ;
+                localStorage.setItem('jwtToken', data);
+                window.location.href = '/index.jsp';
             })
             .catch(error => {
                 console.error('Login error:', error);

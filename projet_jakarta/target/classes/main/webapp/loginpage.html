@@ -1,4 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,18 +60,12 @@
 <body>
 <div class="login-container">
     <h2>Login</h2>
-    <%-- Display error message if 'error' parameter exists --%>
-    <%
-        String errorMessage = request.getParameter("error");
-        if (errorMessage != null) {
-    %>
-    <div class="error"><%= errorMessage %></div>
-    <% } %>
-    <form method="POST" action="logincontroller">
-        <input type="email" name="email" placeholder="Enter Email" required>
-        <input type="password" name="password" placeholder="Enter Password" required>
-        <input type="submit" value="Login">
+    <form id="loginform" method="POST"  >
+        <input id="email" type="email" name="email" placeholder="Enter Email" required>
+        <input id="password" type="password" name="password" placeholder="Enter Password" required>
+        <input  type="submit" value="Login">
     </form>
 </div>
+<script src="login.js"></script>
 </body>
 </html>

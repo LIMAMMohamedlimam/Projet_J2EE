@@ -35,9 +35,13 @@ public class logincontroller extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        JSONObject jsonResponse = new JSONObject() ;
+
+
         // Retrieve email and password from request
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        System.out.println(email +" " + password);
 
         try {
             // Check if the user exists in the database
@@ -46,14 +50,18 @@ public class logincontroller extends HttpServlet {
             if (utilisateur != null) {
 
                 // User found: Respond with success
-                String token = JwtUtil.generateToken(utilisateur.getId() + "");
-                request.setAttribute("token", token);
+                String jwt = JwtUtil.generateJwt(utilisateur);
+                //request.setAttribute("jwt", jwt);
 
-                request.setAttribute("Nom", utilisateur.getNom());
-                request.setAttribute("Prenom", utilisateur.getPrenom());
-                String linkToIndexPage = getIndexPage(utilisateur.getRole()) ;
-                RequestDispatcher dispatcher = request.getRequestDispatcher(linkToIndexPage);// change it to the corresponding page
-                dispatcher.forward(request, response);
+                response.setContentType("application/json");
+                response.getWriter().write(jwt);
+                System.out.println(response);
+
+                //request.setAttribute("Nom", utilisateur.getNom());
+                //request.setAttribute("Prenom", utilisateur.getPrenom());
+                //String linkToIndexPage = getIndexPage(utilisateur.getRole()) ;
+                //RequestDispatcher dispatcher = request.getRequestDispatcher(linkToIndexPage);// change it to the corresponding page
+                //dispatcher.forward(request, response);
                 //response.setContentType("application/json");
                 //response.setCharacterEncoding("UTF-8");
                 //response.addHeader("Authorization", "Bearer " + token);
@@ -70,11 +78,17 @@ public class logincontroller extends HttpServlet {
 
             } else {
                 // User not found: Redirect to login page with an error message
-                response.sendRedirect("loginpage.jsp?error=Invalid+email+or+password");
+                jsonResponse.put("erreur", "Invalid email or password");
+                response.setContentType("application/json");
+                response.getWriter().write(jsonResponse.toString());
+                //response.sendRedirect("loginpage.html?error=Invalid+email+or+password");
             }
         } catch (Exception e) {
             // Handle unexpected errors
-            response.sendRedirect("loginpage.jsp?error=An+unexpected+error+occurred");
+            jsonResponse.put("erreur", "Exception occured");
+            response.setContentType("application/json");
+            response.getWriter().write(jsonResponse.toString());
+            //response.sendRedirect("loginpage.html?error=An+unexpected+error+occurred");
             e.printStackTrace();
         }
 
@@ -90,7 +104,7 @@ public class logincontroller extends HttpServlet {
                 return "index.jsp";
         }
 
-        return "loginpage.jsp" ;
+        return "loginpage.html" ;
 
     }
 }

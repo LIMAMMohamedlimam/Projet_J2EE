@@ -1,9 +1,11 @@
 package com.cytech.projet_jakarta.utility;
 
+import com.cytech.projet_jakarta.model.UtilisateurEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.json.simple.JSONObject;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -34,5 +36,17 @@ public class JwtUtil {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public static String generateJwt(UtilisateurEntity utilisateur) throws Exception {
+
+        String userId = utilisateur.getId().toString() ;
+        JSONObject jsonJwt = new JSONObject();
+        jsonJwt.put("nom", utilisateur.getNom());
+        jsonJwt.put("role", utilisateur.getRole());
+        jsonJwt.put("jwtToken",generateToken(userId) );
+
+        return jsonJwt.toJSONString();
+
     }
 }
