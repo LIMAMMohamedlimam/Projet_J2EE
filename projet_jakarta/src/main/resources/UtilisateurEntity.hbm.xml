@@ -3,7 +3,7 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.cytech.projet_jakarta.model">
-    <class name="UtilisateurEntity" table="utilisateur" schema="gestionscolarite">
+    <class name="UtilisateurEntity" table="Utilisateur" schema="GestionScolarite">
         <id name="id" column="id" type="java.lang.Integer">
             <generator class="identity"/>
         </id>
@@ -13,7 +13,7 @@
         <property name="dateDeNaissance" column="dateDeNaissance" type="java.time.LocalDate"/>
         <property name="email" column="email" type="string" length="100" not-null="true"/>
         <property name="contact" column="contact" type="string" length="15"/>
-        <property name="motDePasse" column="motDePasse" type="string" not-null="true"/>
+        <property name="password" column="password" type="string" not-null="true"/>
         <property name="role" column="role" type="string" not-null="true"/>
     </class>
 </hibernate-mapping>

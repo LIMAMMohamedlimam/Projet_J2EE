@@ -38,8 +38,8 @@ public class UtilisateurEntity {
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "motDePasse", nullable = false)
-    private String motDePasse;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @NotNull
     @Lob
@@ -94,12 +94,12 @@ public class UtilisateurEntity {
         this.contact = contact;
     }
 
-    public String getMotDePasse() {
-        return motDePasse;
+    public String getPassword() {
+        return password;
     }
 
-    public void setMotDePasse(String motDePasse) {
-        this.motDePasse = motDePasse;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getRole() {

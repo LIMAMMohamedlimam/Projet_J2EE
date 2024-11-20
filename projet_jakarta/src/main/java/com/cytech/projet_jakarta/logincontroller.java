@@ -2,14 +2,18 @@ package com.cytech.projet_jakarta;
 
 import com.cytech.projet_jakarta.dao.UtilisateurDAO;
 import com.cytech.projet_jakarta.model.UtilisateurEntity;
+import com.cytech.projet_jakarta.utility.JwtUtil;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.json.simple.JSONObject;
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(name = "logincontroller", value = "/logincontroller")
 public class logincontroller extends HttpServlet {
@@ -24,6 +28,13 @@ public class logincontroller extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         // Retrieve email and password from request
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -33,28 +44,53 @@ public class logincontroller extends HttpServlet {
             UtilisateurEntity utilisateur = utilisateurDAO.findByEmailAndPassword(email, password);
 
             if (utilisateur != null) {
+
                 // User found: Respond with success
-                response.setContentType("text/html");
-                response.getWriter().println("<h1>Login successful!</h1>");
-                response.getWriter().println("<p>Welcome, " + utilisateur.getNom()+" "+utilisateur.getPrenom() + ".</p>");
+                String token = JwtUtil.generateToken(utilisateur.getId() + "");
+                request.setAttribute("token", token);
+
+                request.setAttribute("Nom", utilisateur.getNom());
+                request.setAttribute("Prenom", utilisateur.getPrenom());
+                String linkToIndexPage = getIndexPage(utilisateur.getRole()) ;
+                RequestDispatcher dispatcher = request.getRequestDispatcher(linkToIndexPage);// change it to the corresponding page
+                dispatcher.forward(request, response);
+                //response.setContentType("application/json");
+                //response.setCharacterEncoding("UTF-8");
+                //response.addHeader("Authorization", "Bearer " + token);
+//
+                //// Send response with token
+                //PrintWriter out = response.getWriter();
+                //JSONObject jsonResponse = new JSONObject();
+                //jsonResponse.put("token", token);
+                //out.print(jsonResponse);
+                //out.flush();
+
+                // Redirect to login page
+
+
             } else {
-                // User not found: Respond with error
-                response.setContentType("text/html");
-                response.getWriter().println("<h1>Login failed!</h1>");
-                response.getWriter().println("<p>Invalid email or password.</p>");
+                // User not found: Redirect to login page with an error message
+                response.sendRedirect("loginpage.jsp?error=Invalid+email+or+password");
             }
         } catch (Exception e) {
-            // Handle errors
-            response.setContentType("text/html");
-            response.getWriter().println("<h1>Error</h1>");
-            response.getWriter().println("<p>There was an error processing your request. Please try again later.</p>");
+            // Handle unexpected errors
+            response.sendRedirect("loginpage.jsp?error=An+unexpected+error+occurred");
             e.printStackTrace();
         }
 
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private String getIndexPage(String role) {
+        switch (role) {
+            case "admin":
+                return "index.jsp";
+            case "student":
+                return "index.jsp";
+            case "teacher":
+                return "index.jsp";
+        }
+
+        return "loginpage.jsp" ;
 
     }
 }

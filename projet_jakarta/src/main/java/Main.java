@@ -5,10 +5,10 @@ public class Main {
 
     public static void main(String[] args) {
         UtilisateurEntity utilisateur = new UtilisateurEntity();
-        utilisateur.setNom("limam");
+        utilisateur.setNom("hello");
         utilisateur.setPrenom("mohamed limam");
-        utilisateur.setEmail("medlimamuia@gmail.com");
-        utilisateur.setMotDePasse("123456789");
+        utilisateur.setEmail("medlimamuia@gmdail.com");
+        utilisateur.setPassword("123456789");
         utilisateur.setRole("admin");
         UtilisateurDAO utilisateurDAO = new UtilisateurDAO();
         System.out.println("ok");

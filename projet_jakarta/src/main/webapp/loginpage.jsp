@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: medli
-  Date: 19/11/2024
-  Time: 13:06
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -32,6 +25,12 @@
         h2 {
             text-align: center;
             margin-bottom: 20px;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-align: center;
         }
         form {
             display: flex;
@@ -62,7 +61,14 @@
 <body>
 <div class="login-container">
     <h2>Login</h2>
-    <form method="post" action="logincontroller">
+    <%-- Display error message if 'error' parameter exists --%>
+    <%
+        String errorMessage = request.getParameter("error");
+        if (errorMessage != null) {
+    %>
+    <div class="error"><%= errorMessage %></div>
+    <% } %>
+    <form method="POST" action="logincontroller">
         <input type="email" name="email" placeholder="Enter Email" required>
         <input type="password" name="password" placeholder="Enter Password" required>
         <input type="submit" value="Login">
@@ -70,6 +76,3 @@
 </div>
 </body>
 </html>
-
-
-
