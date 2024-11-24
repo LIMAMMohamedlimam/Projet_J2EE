@@ -7,13 +7,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        const formData = new FormData();
-        formData.append('email', email);
-        formData.append('password', password);
+
 
         fetch('http://localhost:8080/projet_jakarta_war_exploded/logincontroller', {
             method: 'POST',
-            body: formData
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
         })
             .then(response => {
                 if (!response.ok) {
@@ -22,13 +23,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                document.cookie = "data" + data ;
-                localStorage.setItem('jwtToken', data);
-                window.location.href = '/index.jsp';
+                console.log('Login successful ', data);
+                localStorage.setItem('login', JSON.stringify(data));
+                document.cookie = 'login' + JSON.stringify(data);
+                window.location.href = './index.html';
             })
             .catch(error => {
-                console.error('Login error:', error);
-                alert('Login failed');
+                console.error('Error:', error);
             });
     });
 });

@@ -44,6 +44,9 @@ public class JwtUtil {
         JSONObject jsonJwt = new JSONObject();
         jsonJwt.put("nom", utilisateur.getNom());
         jsonJwt.put("role", utilisateur.getRole());
+        jsonJwt.put("nom", utilisateur.getNom());
+        jsonJwt.put("prenom", utilisateur.getPrenom());
+        jsonJwt.put("Id", utilisateur.getId());
         jsonJwt.put("jwtToken",generateToken(userId) );
 
         return jsonJwt.toJSONString();

@@ -22,7 +22,7 @@ public class JwtFilter implements Filter {
 
         //Skip authentication for login page
         String path = httpRequest.getRequestURI();
-        if(path.contains("/login")){
+        if(path.contains("/login") || path.contains("/index")){
             chain.doFilter(request, response);
             return;
         }
