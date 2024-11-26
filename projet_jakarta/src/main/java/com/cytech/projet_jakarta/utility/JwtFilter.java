@@ -11,7 +11,7 @@ import jakarta.servlet.*;
 
 import java.io.IOException;
 
-@WebFilter("/*") // Apply filter to all endpoints
+@WebFilter("") // Apply filter to all endpoints
 public class JwtFilter implements Filter {
 
     @Override

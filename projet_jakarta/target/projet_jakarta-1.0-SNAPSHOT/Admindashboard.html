@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+
+        .dashboard-container {
+            text-align: center;
+            width: 80%;
+            max-width: 800px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .dashboard-content {
+            display: flex;
+            justify-content: space-around;
+            background-color: #e0e7ff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .dashboard-card {
+            flex: 1;
+            max-width: 200px;
+            text-align: center;
+            padding: 15px;
+            margin: 0 10px;
+            background-color: #2e86c1;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: scale(1.05);
+            background-color: #1b4f72;
+        }
+
+        .dashboard-card:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+<script >
+    function parseUserData(jsonData) {
+    // Parse the JSON string if it's not already an object
+    const data = typeof jsonData === 'string' ? JSON.parse(jsonData) : jsonData;
+
+    // Extract basic user information
+    const userInfo = {
+        id: data.Id,
+        role: data.role,
+        firstName: data.prenom,
+        lastName: data.nom,
+        fullName: `${data.prenom} ${data.nom}`
+    };
+
+    // Parse JWT token
+    const parseJWTToken = (token) => {
+        try {
+            // Split the token into parts
+            const [header, payload, signature] = token.split('.');
+
+            // Decode the payload
+            const decodedPayload = JSON.parse(atob(payload));
+
+            return {
+                subject: decodedPayload.sub,
+                issuedAt: new Date(decodedPayload.iat * 1000),
+                expirationTime: new Date(decodedPayload.exp * 1000),
+                isExpired: Date.now() > decodedPayload.exp * 1000
+            };
+        } catch (error) {
+            throw new Error('Invalid JWT token format');
+        }
+    };
+
+    // Get JWT information
+    const tokenInfo = parseJWTToken(data.jwtToken);
+
+    return {
+        user: userInfo,
+        token: {
+            raw: data.jwtToken,
+            ...tokenInfo
+        }
+    };
+}
+    window.onload = () => {
+        const data = localStorage.getItem("login");
+        userInfo = parseUserData(data).user;
+        console.log(parseUserData(data).user);
+        const name = document.getElementById("dashboard-header");
+        name.innerHTML = "Welcome " +  userInfo.firstName + " " + userInfo.lastName;
+    }
+</script>
+<div class="dashboard-container">
+    <div id="dashboard-header" class="dashboard-header">hello</div>
+    <div class="dashboard-content">
+        <div class="dashboard-card">Gestion des Etudiants</div>
+        <div class="dashboard-card">Gestion des Enseignant</div>
+        <div class="dashboard-card">Gestion des Emplois du temp</div>
+    </div>
+</div>
+</body>
+<script>
+
+</script>
+</html>

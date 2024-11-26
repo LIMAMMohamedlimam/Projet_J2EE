@@ -71,12 +71,13 @@ public class logincontroller extends HttpServlet {
 
                 // User found: Respond with success
                 String jwt = JwtUtil.generateJwt(utilisateur);
+                System.out.println("JWT: " + jwt);
+                System.out.println( "response"+response);
                 //request.setAttribute("jwt", jwt);
 
                 response.setContentType("application/json");
                 response.getWriter().write(jwt);
                 response.setStatus(HttpServletResponse.SC_OK);
-                System.out.println(response);
 
 
 

@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Login successful ', data);
                 localStorage.setItem('login', JSON.stringify(data));
                 document.cookie = 'login' + JSON.stringify(data);
-                window.location.href = './index.html';
+                window.location.href = './Admindashboard.html';
             })
             .catch(error => {
                 console.error('Error:', error);

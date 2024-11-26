@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #f4f4f9;
+            overflow: hidden; /* Prevents scrolling */
+        }
+
+        .dashboard-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 0.5s ease-in-out; /* Smooth slide animation */
+        }
+
+        .dashboard-main {
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .dashboard-content {
+            display: flex;
+            justify-content: space-around;
+            background-color: #e0e7ff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .dashboard-card {
+            flex: 1;
+            max-width: 200px;
+            text-align: center;
+            padding: 15px;
+            margin: 0 10px;
+            background-color: #2e86c1;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: scale(1.05);
+            background-color: #1b4f72;
+        }
+
+        .dashboard-card:active {
+            transform: scale(0.98);
+        }
+
+        /* Section for specific card details */
+        .card-details {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #e0e7ff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .details-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .details-options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .details-option {
+            background-color: #2e86c1;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: center;
+            width: 200px;
+            transition: background-color 0.2s ease;
+        }
+
+        .details-option:hover {
+            background-color: #1b4f72;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            background-color: #d9534f;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .back-button:hover {
+            background-color: #b52a25;
+        }
+    </style>
+</head>
+<body>
+<script >
+    function parseUserData(jsonData) {
+        // Parse the JSON string if it's not already an object
+        const data = typeof jsonData === 'string' ? JSON.parse(jsonData) : jsonData;
+
+        // Extract basic user information
+        const userInfo = {
+            id: data.Id,
+            role: data.role,
+            firstName: data.prenom,
+            lastName: data.nom,
+            fullName: `${data.prenom} ${data.nom}`
+        };
+
+        // Parse JWT token
+        const parseJWTToken = (token) => {
+            try {
+                // Split the token into parts
+                const [header, payload, signature] = token.split('.');
+
+                // Decode the payload
+                const decodedPayload = JSON.parse(atob(payload));
+
+                return {
+                    subject: decodedPayload.sub,
+                    issuedAt: new Date(decodedPayload.iat * 1000),
+                    expirationTime: new Date(decodedPayload.exp * 1000),
+                    isExpired: Date.now() > decodedPayload.exp * 1000
+                };
+            } catch (error) {
+                throw new Error('Invalid JWT token format');
+            }
+        };
+
+        // Get JWT information
+        const tokenInfo = parseJWTToken(data.jwtToken);
+
+        return {
+            user: userInfo,
+            token: {
+                raw: data.jwtToken,
+                ...tokenInfo
+            }
+        };
+    }
+    window.onload = () => {
+        const data = localStorage.getItem("login");
+        userInfo = parseUserData(data).user;
+        console.log(parseUserData(data).user);
+        const name = document.getElementById("dashboard-header");
+        name.innerHTML = "Welcome " +  userInfo.firstName + " " + userInfo.lastName;
+    }
+</script>
+<div class="dashboard-container" id="dashboard-container">
+    <!-- Main Dashboard -->
+    <div class="dashboard-main">
+        <div id="dashboard-header" class="dashboard-header"></div>
+        <div class="dashboard-content">
+            <div class="dashboard-card" data-target="students">Gestion des Etudiants</div>
+            <div class="dashboard-card" data-target="teachers">Gestion des Enseignant</div>
+            <div class="dashboard-card" data-target="schedule">Gestion de l'Emploi des temps</div>
+        </div>
+    </div>
+
+    <!-- Students Section -->
+    <div class="card-details" id="students">
+        <div class="details-header">Gestion des Etudiants</div>
+        <div class="details-options">
+            <div class="details-option">Ajouter un Etudiant</div>
+            <div class="details-option">Modifier un Etudiant</div>
+            <div class="details-option">Supprimer un Etudiant</div>
+        </div>
+        <div class="back-button" onclick="goBack()">Retour</div>
+    </div>
+
+    <!-- Teachers Section -->
+    <div class="card-details" id="teachers">
+        <div class="details-header">Gestion des Enseignants</div>
+        <div class="details-options">
+            <div class="details-option">Ajouter un Enseignant</div>
+            <div class="details-option">Modifier un Enseignant</div>
+            <div class="details-option">Supprimer un Enseignant</div>
+        </div>
+        <div class="back-button" onclick="goBack()">Retour</div>
+    </div>
+
+    <!-- Schedule Section -->
+    <div class="card-details" id="schedule">
+        <div class="details-header">Gestion de l'Emploi des temps</div>
+        <div class="details-options">
+            <div class="details-option">Créer un Emploi</div>
+            <div class="details-option">Modifier un Emploi</div>
+            <div class="details-option">Supprimer un Emploi</div>
+        </div>
+        <div class="back-button" onclick="goBack()">Retour</div>
+    </div>
+</div>
+
+<script>
+    const dashboardContainer = document.getElementById('dashboard-container');
+    const cards = document.querySelectorAll('.dashboard-card');
+
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            const targetId = card.getAttribute('data-target');
+            const targetSection = document.getElementById(targetId);
+
+            // Move the dashboard to the left
+            dashboardContainer.style.transform = `translateX(0)`;
+
+            // Show the selected section
+            targetSection.style.display = 'flex';
+        });
+    });
+
+    function goBack() {
+        // Move the dashboard back to the center
+        dashboardContainer.style.transform = `translateX(100%)`;
+
+        // Hide all detail sections
+        document.querySelectorAll('.card-details').forEach(section => {
+            section.style.display = 'none';
+        });
+    }
+</script>
+</body>
+</html>
