@@ -1,6 +1,5 @@
 package com.cytech.projet_jakarta.utility;
 
-import com.cytech.projet_jakarta.model.UtilisateurEntity;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

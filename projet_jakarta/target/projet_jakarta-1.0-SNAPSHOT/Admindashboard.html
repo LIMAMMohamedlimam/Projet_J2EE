@@ -122,13 +122,24 @@
 <div class="dashboard-container">
     <div id="dashboard-header" class="dashboard-header">hello</div>
     <div class="dashboard-content">
-        <div class="dashboard-card">Gestion des Etudiants</div>
-        <div class="dashboard-card">Gestion des Enseignant</div>
-        <div class="dashboard-card">Gestion des Emplois du temp</div>
+        <div class="dashboard-card" id="student-card">Gestion des Étudiants</div>
+        <div class="dashboard-card" id="prof-card" >Gestion des Enseignant</div>
+        <div class="dashboard-card" id="emploi-card" >Gestion des Emplois du temp</div>
     </div>
 </div>
 </body>
 <script>
-
+    console.log("hello");
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById("student-card").addEventListener("click", () => {
+            window.location.href = "getStudent.html" ;
+        });
+        document.getElementById("prof-card").addEventListener("click", () => {
+            window.location.href = "getProf.html" ;
+        });
+        document.getElementById("emploi-card").addEventListener("click", () => {
+            window.location.href = "getEmploi.html" ;
+        });
+    });
 </script>
 </html>

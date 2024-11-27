@@ -1,10 +1,10 @@
 import com.cytech.projet_jakarta.dao.UtilisateurDAO;
-import com.cytech.projet_jakarta.model.UtilisateurEntity;
+import com.cytech.projet_jakarta.model.Utilisateur;
 
 public class Main {
 
     public static void main(String[] args) {
-        UtilisateurEntity utilisateur = new UtilisateurEntity();
+        Utilisateur utilisateur = new Utilisateur();
         utilisateur.setNom("hello");
         utilisateur.setPrenom("mohamed limam");
         utilisateur.setEmail("medlimamuia@gmdail.com");

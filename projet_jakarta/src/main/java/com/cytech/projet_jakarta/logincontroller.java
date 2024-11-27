@@ -1,11 +1,10 @@
 package com.cytech.projet_jakarta;
 
 import com.cytech.projet_jakarta.dao.UtilisateurDAO;
-import com.cytech.projet_jakarta.model.UtilisateurEntity;
+import com.cytech.projet_jakarta.model.Utilisateur;
 import com.cytech.projet_jakarta.utility.JsonParser;
 import com.cytech.projet_jakarta.utility.JwtUtil;
 import com.cytech.projet_jakarta.utility.UserCredentials;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,7 +15,6 @@ import org.json.simple.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet(name = "logincontroller", value = "/logincontroller")
 public class logincontroller extends HttpServlet {
@@ -65,7 +63,7 @@ public class logincontroller extends HttpServlet {
 
 
             // Check if the user exists in the database
-            UtilisateurEntity utilisateur = utilisateurDAO.findByEmailAndPassword(email, password);
+            Utilisateur utilisateur = utilisateurDAO.findByEmailAndPassword(email, password);
 
             if (utilisateur != null) {
 

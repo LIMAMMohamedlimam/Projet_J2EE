@@ -3,7 +3,7 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.cytech.projet_jakarta.model">
-    <class name="UtilisateurEntity" table="Utilisateur" schema="GestionScolarite">
+    <class name="com.cytech.projet_jakarta.model.Utilisateur" table="Utilisateur" schema="GestionScolarite">
         <id name="id" column="id" type="java.lang.Integer">
             <generator class="identity"/>
         </id>

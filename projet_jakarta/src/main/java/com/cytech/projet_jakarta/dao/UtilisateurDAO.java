@@ -1,6 +1,6 @@
 package com.cytech.projet_jakarta.dao;
 
-import com.cytech.projet_jakarta.model.UtilisateurEntity;
+import com.cytech.projet_jakarta.model.Utilisateur;
 import com.cytech.projet_jakarta.utility.HibernateUtil;
 
 import org.hibernate.HibernateException;
@@ -11,11 +11,11 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class UtilisateurDAO implements DAOInterface <UtilisateurEntity> {
+public class UtilisateurDAO implements DAOInterface <Utilisateur> {
     Session session = null ;
     Transaction tx = null ;
     @Override
-    public int saveData(UtilisateurEntity data)  {
+    public int saveData(Utilisateur data)  {
         session = HibernateUtil.getSession();
         try {
             tx = session.beginTransaction();
@@ -31,7 +31,7 @@ public class UtilisateurDAO implements DAOInterface <UtilisateurEntity> {
     }
 
     @Override
-    public int updateData(UtilisateurEntity data) {
+    public int updateData(Utilisateur data) {
         session = HibernateUtil.getSession();
         try {
             tx = session.beginTransaction();
@@ -47,23 +47,23 @@ public class UtilisateurDAO implements DAOInterface <UtilisateurEntity> {
     }
 
     @Override
-    public int removeData(UtilisateurEntity data) {
+    public int removeData(Utilisateur data) {
         return 0;
     }
 
     @Override
-    public List<UtilisateurEntity> getAllData() {
+    public List<Utilisateur> getAllData() {
         return null ;
     }
 
-    public UtilisateurEntity findByEmailAndPassword(String email, String password) {
-        UtilisateurEntity utilisateur = null;
+    public Utilisateur findByEmailAndPassword(String email, String password) {
+        Utilisateur utilisateur = null;
 
         // Open Hibernate session
         try (Session session = HibernateUtil.getSession()) {
             // Create HQL query to find user by email and password
-            String hql = "FROM UtilisateurEntity WHERE email = :email AND password = :password";
-            Query<UtilisateurEntity> query = session.createQuery(hql, UtilisateurEntity.class);
+            String hql = "FROM Utilisateur WHERE email = :email AND password = :password";
+            Query<Utilisateur> query = session.createQuery(hql, Utilisateur.class);
             query.setParameter("email", email);
             query.setParameter("password", password);
 
