@@ -1,17 +1,27 @@
+import com.cytech.projet_jakarta.dao.EtudiantDAO;
 import com.cytech.projet_jakarta.dao.UtilisateurDAO;
+import com.cytech.projet_jakarta.model.Etudiant;
 import com.cytech.projet_jakarta.model.Utilisateur;
+import jakarta.servlet.http.HttpServletRequest;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.cytech.projet_jakarta.utility.JsonParser.parseSingleInput;
 
 public class Main {
 
     public static void main(String[] args) {
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setNom("hello");
-        utilisateur.setPrenom("mohamed limam");
-        utilisateur.setEmail("medlimamuia@gmdail.com");
-        utilisateur.setPassword("123456789");
-        utilisateur.setRole("admin");
-        UtilisateurDAO utilisateurDAO = new UtilisateurDAO();
-        System.out.println("ok");
-        utilisateurDAO.saveData(utilisateur);
+        EtudiantDAO etudiantDAO = new EtudiantDAO();
+        String json = etudiantDAO.getAllStudents() ;
+        //String json = "{" ;
+        //List<Etudiant> etudiants = new ArrayList<>();
+        //etudiants = etudiantDAO.getAllStudents() ;
+        //for(Etudiant etu : etudiants){
+        //    System.out.println(etu.toString());
+        //    json = json + parseSingleInput(etu.toString()) + ", " ;
+        //}
+        //json = json+ "}" ;
+        System.out.println(json);
     }
 }

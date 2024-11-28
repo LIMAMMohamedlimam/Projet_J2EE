@@ -8,6 +8,9 @@
             <generator class="identity"/>
         </id>
 
+        <property name="nom" column="nom" type="string" length="30" not-null="false"/>
+        <property name="prenom" column="prenom" type="string" length="30" not-null="true"/>
+        <property name="dateDeNaissance" column="dateDeNaissance" type="java.time.LocalDate"/>
 
     </class>
 </hibernate-mapping>

@@ -9,6 +9,8 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
+import static com.cytech.projet_jakarta.utility.JsonParser.parseSingleInput;
+
 public class EtudiantDAO {
     public void saveStudent(Etudiant etudiant) {
         Transaction transaction = null;
@@ -40,11 +42,26 @@ public class EtudiantDAO {
         }
     }
 
-    public List<Etudiant> getAllStudents() {
+    public String getAllStudents() {
+        String json ="{";
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from Etudiant", Etudiant.class).list();
+            List<Etudiant> etudiants =  session.createQuery("select e from Etudiant e", Etudiant.class).list();
+            int i=0 ;
+            for(Etudiant etu : etudiants){
+                i++;
+
+                System.out.println(etu.toString());
+                json = json + parseSingleInput(etu.toString()) ;
+                if (i < etudiants.size()) json = json + ", ";
+            }
+            json = json+ "}" ;
         }
+        return json ;
     }
+
+
+
+
 
     public void updateStudent(Etudiant etudiant) {
         Transaction transaction = null;

@@ -187,7 +187,7 @@
 </div>
 
 <script>
-    let students = []; // Store students data
+    let students = []; // Store students data globally
     let editingIndex = null;
 
     // Add or Update Student
@@ -205,31 +205,53 @@
 
         const student = { name, surname, dob, contact };
 
-        fetch('http://localhost:8080/gestionEtudiant/addStudent', {
+        fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
-        }
-
-        if (editingIndex !== null) {
-            // Update existing student
-            students[editingIndex] = student;
-            editingIndex = null;
-        } else {
-            // Add new student
-            students.push(student);
-        }
+            },
+            body: JSON.stringify(student)
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Erreur lors de l\'ajout de l\'étudiant.');
+                return response.json();
+            })
+            .then(() => {
+                alert('Étudiant enregistré avec succès !');
+                fetchAndRenderStudents(); // Refresh the student list after adding
+            })
+            .catch(error => console.error('Error:', error));
 
         resetForm();
-        renderStudents();
     }
 
-    // Render Student List
-    function renderStudents(filter = "") {
-        const studentList = document.getElementById('student-list');
-        studentList.innerHTML = '';
+    // Fetch and Render Student List
+    function fetchAndRenderStudents(filter = '') {
+        const apiUrl = 'http://localhost:8080/projet_jakarta_war_exploded/EtudiantServlet';
 
+        fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Erreur lors de la récupération des étudiants.');
+                return response.json();
+            })
+            .then(data => {
+                students = fillStudentList(data);
+                renderStudents(filter); // Pass the filter for dynamic rendering
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Render Students
+    function renderStudents(filter = '') {
+        const studentList = document.getElementById('student-list');
+        studentList.innerHTML = ''; // Clear existing table content
+
+        // Filter and map students to rows
         students
             .filter(student =>
                 student.name.toLowerCase().includes(filter.toLowerCase()) ||
@@ -237,25 +259,55 @@
             )
             .forEach((student, index) => {
                 const row = `
-                        <tr>
-                            <td>${student.name}</td>
-                            <td>${student.surname}</td>
-                            <td>${student.dob}</td>
-                            <td>${student.contact}</td>
-                            <td class="actions">
-                                <button class="view-btn" onclick="viewStudent(${index})">Voir</button>
-                                <button class="delete-btn" onclick="deleteStudent(${index})">Supprimer</button>
-                            </td>
-                        </tr>
-                    `;
+                    <tr>
+                        <td>${student.name}</td>
+                        <td>${student.surname}</td>
+                        <td>${student.dob}</td>
+                        <td>${student.contact}</td>
+                        <td class="actions">
+                            <button class="view-btn" onclick="viewStudent(${index})">Voir</button>
+                            <button class="delete-btn" onclick="deleteStudent(${index})">Supprimer</button>
+                        </td>
+                    </tr>
+                `;
                 studentList.innerHTML += row;
             });
     }
 
+    // Transform JSON Data into Student Array
+    function fillStudentList(jsonData) {
+        const studentArray = [];
+
+        Object.keys(jsonData).forEach(key => {
+            const student = jsonData[key];
+            studentArray.push({
+                name: student.prenom,
+                surname: student.nom,
+                dob: student.dateDeNaissance,
+                contact: `Contact information for ${student.prenom} ${student.nom}`
+            });
+        });
+
+        return studentArray;
+    }
+
     // Delete Student
     function deleteStudent(index) {
-        students.splice(index, 1);
-        renderStudents();
+        const student = students[index];
+        const apiUrl = `http://localhost:8080/projet_jakarta_war_exploded/EtudiantServlet/${student.name}`; // Adjust API endpoint as needed
+
+        fetch(apiUrl, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Erreur lors de la suppression de l\'étudiant.');
+                alert('Étudiant supprimé avec succès !');
+                fetchAndRenderStudents(); // Refresh the student list after deletion
+            })
+            .catch(error => console.error('Error:', error));
     }
 
     // View Student Details
@@ -278,20 +330,9 @@
         renderStudents(filter);
     }
 
-
-    // Function to fetch data from the API
-    async function fetchData() {
-        try {
-            const response = await fetch(apiUrl); // Fetching the data
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const data = await response.json(); // Parsing the JSON response
-            console.log('Data fetched successfully:', data);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    }
+    // Initial Fetch
+    document.addEventListener('DOMContentLoaded', fetchAndRenderStudents);
 </script>
+
 </body>
 </html>

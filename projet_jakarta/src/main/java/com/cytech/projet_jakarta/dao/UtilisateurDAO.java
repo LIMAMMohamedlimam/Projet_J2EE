@@ -75,4 +75,6 @@ public class UtilisateurDAO implements DAOInterface <Utilisateur> {
 
         return utilisateur; // Returns null if no user is found
     }
+
+
 }

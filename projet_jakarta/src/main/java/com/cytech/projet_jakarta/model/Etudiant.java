@@ -1,11 +1,14 @@
 package com.cytech.projet_jakarta.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDate;
+
 @Entity
-@Table(name = "Etudiant")
 public class Etudiant {
     @Id
     @Column(name = "id", nullable = false)
@@ -16,6 +19,19 @@ public class Etudiant {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "id", nullable = false)
     private Utilisateur utilisateur;
+
+    @Size(max = 30)
+    @NotNull
+    @Column(name = "nom", nullable = false, length = 30)
+    private String nom;
+
+    @Size(max = 30)
+    @NotNull
+    @Column(name = "prenom", nullable = false, length = 30)
+    private String prenom;
+
+    @Column(name = "dateDeNaissance")
+    private LocalDate dateDeNaissance;
 
     public Integer getId() {
         return id;
@@ -31,6 +47,35 @@ public class Etudiant {
 
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public LocalDate getDateDeNaissance() {
+        return dateDeNaissance;
+    }
+
+    public void setDateDeNaissance(LocalDate dateDeNaissance) {
+        this.dateDeNaissance = dateDeNaissance;
+    }
+
+    @Override
+    public String toString() {
+        return this.nom + " " + this.prenom + " " + this.dateDeNaissance;
     }
 
 }
