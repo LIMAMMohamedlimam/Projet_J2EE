@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/gestionscolarite</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">Semgoodd2002@#</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.use_sql_comments">true</property>
+        <property name="hibernate.generate_statistics">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <property name="hibernate.archive.autodetection">class</property>
+        <mapping class="com.test.MyHyber.Entity.Admin"/>
+        <mapping class="com.test.MyHyber.Entity.Utilisateur"/>
+        <mapping class="com.test.MyHyber.Entity.Etudiant"/>
+        <mapping class="com.test.MyHyber.Entity.Cours"/>
+        <mapping class="com.test.MyHyber.Entity.Matiere"/>
+        <mapping class="com.test.MyHyber.Entity.Notes"/>
+        <mapping class="com.test.MyHyber.Entity.Inscription"/>
+        <mapping class="com.test.MyHyber.Entity.Resultat"/>
+        <mapping class="com.test.MyHyber.Entity.Enseignant"/>
+    </session-factory>
+</hibernate-configuration>
