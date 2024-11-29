@@ -157,6 +157,14 @@
             <input type="date" id="student-dob">
         </div>
         <div class="form-group">
+            <label for="student-email">Email:</label>
+            <input type="text" id="student-email">
+        </div>
+        <div class="form-group">
+            <label for="student-password">Password:</label>
+            <input type="text" id="student-password">
+        </div>
+        <div class="form-group">
             <label for="student-contact">Contact:</label>
             <input type="text" id="student-contact" placeholder="Contact">
         </div>
@@ -197,6 +205,8 @@
         const surname = document.getElementById('student-surname').value;
         const dob = document.getElementById('student-dob').value;
         const contact = document.getElementById('student-contact').value;
+        const email = document.getElementById('student-email').value;
+        const password = document.getElementById('student-password').value;
 
         if (!name || !surname || !dob || !contact) {
             alert('Tous les champs sont obligatoires !');
@@ -205,12 +215,12 @@
 
         const student = { name, surname, dob, contact };
 
-        const formData = new URLSearchParams();
-        formData.append('student', student);
-        formData.append('action', 'new' )
+        //const formData = new URLSearchParams();
+        //formData.append('student', student);
+        //formData.append('action', 'new' )
 
         fetch(apiUrl, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },

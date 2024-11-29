@@ -110,4 +110,9 @@ public class Utilisateur {
         this.role = role;
     }
 
+    @Override
+    public String toString() {
+        return this.id + " " +this.nom + " " + this.prenom + " " + this.dateDeNaissance  ;
+    }
+
 }

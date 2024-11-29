@@ -33,6 +33,10 @@ public class Etudiant {
     @Column(name = "dateDeNaissance")
     private LocalDate dateDeNaissance;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Etud_uti_fk")
+    private int etudUtiFk;
+
     public Integer getId() {
         return id;
     }
@@ -72,10 +76,17 @@ public class Etudiant {
     public void setDateDeNaissance(LocalDate dateDeNaissance) {
         this.dateDeNaissance = dateDeNaissance;
     }
+    public int getEtudUtiFk() {
+        return etudUtiFk;
+    }
+
+    public void setEtudUtiFk(int etudUtiFk) {
+        this.etudUtiFk = etudUtiFk;
+    }
 
     @Override
     public String toString() {
-        return this.nom + " " + this.prenom + " " + this.dateDeNaissance;
+        return this.id +" " +this.etudUtiFk+" " + this.nom + " " + this.prenom + " " + this.dateDeNaissance;
     }
 
 }

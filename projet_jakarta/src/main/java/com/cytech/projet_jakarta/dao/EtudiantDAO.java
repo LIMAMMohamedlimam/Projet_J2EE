@@ -2,8 +2,10 @@ package com.cytech.projet_jakarta.dao;
 
 import com.cytech.projet_jakarta.model.Etudiant;
 import com.cytech.projet_jakarta.utility.HibernateUtil;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import com.cytech.projet_jakarta.model.Utilisateur ;
 
 
 
@@ -24,6 +26,23 @@ public class EtudiantDAO {
         }
     }
 
+    public int saveStudentData(Utilisateur util)  {
+        Etudiant newEtudiant = new Etudiant();
+        newEtudiant.setNom(util.getNom());
+        newEtudiant.setPrenom(util.getPrenom());
+        newEtudiant.setEtudUtiFk(util.getId());
+        newEtudiant.setDateDeNaissance(util.getDateDeNaissance());
+        try (Session session = HibernateUtil.getSession()) {
+            Transaction tx = session.beginTransaction();
+            session.persist(newEtudiant);
+            tx.commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return 0;
+    }
+
     public Etudiant findStudentById(int id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.get(Etudiant.class, id);
@@ -39,6 +58,16 @@ public class EtudiantDAO {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public List<Etudiant> findByNameAndPronoun(String nom, String prenom) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "select e from Etudiant e   where e.nom like :nom and e.prenom like :prenom ";
+            return session.createQuery(hql, Etudiant.class)
+                    .setParameter("nom", "%" + nom + "%")
+                    .setParameter("prenom", "%" + prenom + "%")
+                    .getResultList();
         }
     }
 

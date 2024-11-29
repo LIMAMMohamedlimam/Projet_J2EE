@@ -6,7 +6,9 @@ import java.util.List;
 
 
 import com.cytech.projet_jakarta.dao.EtudiantDAO;
+import com.cytech.projet_jakarta.dao.UtilisateurDAO;
 import com.cytech.projet_jakarta.model.Etudiant;
+import com.cytech.projet_jakarta.model.Utilisateur;
 import com.cytech.projet_jakarta.utility.UserData;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -32,7 +34,8 @@ public class EtudiantServlet extends HttpServlet {
         //UserData userData = getUserDataFromRequest(request);
         //response.setContentType("application/json");
         //response.getWriter().write("getAction");
-        String action = request.getParameter("action");
+        String action = request.getParameter("data");
+        System.out.println(action);
         if (action == null) action = "list";
 
         switch (action) {
@@ -49,7 +52,7 @@ public class EtudiantServlet extends HttpServlet {
                 searchEtudiants(request, response);
                 break;
             default:
-                System.out.println("hello");
+                //System.out.println("hello");
                 listEtudiants(request, response);
                 break;
         }
@@ -61,7 +64,7 @@ public class EtudiantServlet extends HttpServlet {
         //request.setAttribute("etudiants", etudiants);
         //request.getRequestDispatcher("etudiant-list.jsp").forward(request, response);
         response.setContentType("application/json");
-        System.out.println("liste etudiant "+ etudiantDAO.getAllStudents());
+        //System.out.println("liste etudiant "+ etudiantDAO.getAllStudents());
         response.getWriter().write(etudiantDAO.getAllStudents());
         response.setStatus(HttpServletResponse.SC_OK);
     }
@@ -95,11 +98,40 @@ public class EtudiantServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserData userData ;
+        UtilisateurDAO utiDao = new UtilisateurDAO();
         userData = getUserDataFromRequest(request);
         System.out.println(userData.toString());
-        //String id = request.getParameter("id");
-        //String nom = request.getParameter("nom");
-        //String prenom = request.getParameter("prenom");
+        String nom = userData.getName();
+        String prenom = userData.getSurname();
+        String dob = userData.getDob();
+        Etudiant newEtudiant ;
+
+        //List <Etudiant> etudiants = etudiantDAO.findByNameAndPronoun(nom , prenom) ;
+        Utilisateur utilisateurEtudiant = utiDao.findByNameAndPronoun(prenom, nom);
+        if(utilisateurEtudiant != null)
+            System.out.println("utilisateur: "+utilisateurEtudiant);
+        if(utilisateurEtudiant != null) {
+            newEtudiant = new Etudiant();
+            newEtudiant.setEtudUtiFk(utilisateurEtudiant.getId());
+            newEtudiant.setNom(userData.getName());
+            newEtudiant.setPrenom(userData.getSurname());
+            newEtudiant.setDateDeNaissance(utilisateurEtudiant.getDateDeNaissance());
+            etudiantDAO.updateStudent(newEtudiant);
+        }else{
+            System.out.println("\nnull\n");
+            newEtudiant = new Etudiant();
+            utilisateurEtudiant = new Utilisateur();
+            utilisateurEtudiant.setNom(userData.getName());
+            utilisateurEtudiant.setPrenom(userData.getSurname());
+            utilisateurEtudiant.setEmail("NNNNNNNNNN");
+            utilisateurEtudiant.setPassword("nnnnnnnnn");
+            utilisateurEtudiant.setRole("etudiant");
+            utiDao.saveData(utilisateurEtudiant);
+            newEtudiant.setPrenom(userData.getSurname());
+            newEtudiant.setNom(userData.getName());
+            etudiantDAO.saveStudentData(utilisateurEtudiant);
+        }
+
 //
         //Etudiant etudiant = (id == null || id.isEmpty()) ? new Etudiant() : etudiantDAO.findStudentById(Integer.parseInt(id));
 //

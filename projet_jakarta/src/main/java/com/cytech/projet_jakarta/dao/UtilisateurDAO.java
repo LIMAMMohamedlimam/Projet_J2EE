@@ -3,6 +3,7 @@ package com.cytech.projet_jakarta.dao;
 import com.cytech.projet_jakarta.model.Utilisateur;
 import com.cytech.projet_jakarta.utility.HibernateUtil;
 
+import jakarta.persistence.NoResultException;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -14,6 +15,9 @@ import java.util.List;
 public class UtilisateurDAO implements DAOInterface <Utilisateur> {
     Session session = null ;
     Transaction tx = null ;
+
+
+
     @Override
     public int saveData(Utilisateur data)  {
         session = HibernateUtil.getSession();
@@ -74,6 +78,25 @@ public class UtilisateurDAO implements DAOInterface <Utilisateur> {
         }
 
         return utilisateur; // Returns null if no user is found
+    }
+
+
+    public Utilisateur findByNameAndPronoun(String name, String pronoun) {
+        // Open Hibernate session
+        try (Session session = HibernateUtil.getSession()) {
+            // Create HQL query to find user by email and password
+            String hql = "FROM Utilisateur WHERE nom = :nom AND prenom = :prenom";
+            Query<Utilisateur> query = session.createQuery(hql, Utilisateur.class);
+            query.setParameter("nom", name);
+            query.setParameter("prenom", pronoun);
+
+            // Get single result
+            return query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 
