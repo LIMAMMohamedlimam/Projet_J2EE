@@ -68,6 +68,8 @@ public class EtudiantServlet extends HttpServlet {
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("etudiant-form.jsp").forward(request, response);
+        etudiantDAO = new EtudiantDAO();
+        List<Etudiant> etudinatlist = etudiantDAO.getAllStudentsList() ;
     }
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

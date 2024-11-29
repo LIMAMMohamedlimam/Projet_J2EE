@@ -205,8 +205,12 @@
 
         const student = { name, surname, dob, contact };
 
+        const formData = new URLSearchParams();
+        formData.append('student', student);
+        formData.append('action', 'new' )
+
         fetch(apiUrl, {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             },

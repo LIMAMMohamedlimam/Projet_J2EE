@@ -43,25 +43,31 @@ public class EtudiantDAO {
     }
 
     public String getAllStudents() {
-        String jsonresponse ="{";
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            List<Etudiant> etudiants =  session.createQuery("select e from Etudiant e", Etudiant.class).list();
-            int i=0 ;
-            for(Etudiant etu : etudiants){
-                String json = "{" ;
-                i++;
+            String jsonresponse = "{";
+            try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+                List<Etudiant> etudiants = session.createQuery("select e from Etudiant e", Etudiant.class).list();
+                int i = 0;
+                for (Etudiant etu : etudiants) {
+                    String json = "{";
+                    i++;
 
-                System.out.println(etu.toString());
-                json = parseSingleInput(etu.toString()) ;
-                jsonresponse += "\""+ "etu" + (i-1) + "\":" +   json ;
-                if (i < etudiants.size()) jsonresponse = jsonresponse + ",";
+                    System.out.println(etu.toString());
+                    json = parseSingleInput(etu.toString());
+                    jsonresponse += "\"" + "etu" + (i - 1) + "\":" + json;
+                    if (i < etudiants.size()) jsonresponse = jsonresponse + ",";
+                }
+                jsonresponse += "}";
             }
-            jsonresponse += "}" ;
-        }
-        return jsonresponse ;
+            return jsonresponse;
+
     }
 
+    public List<Etudiant> getAllStudentsList() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("select e from Etudiant e", Etudiant.class).list();
+        }
 
+    }
 
 
 
