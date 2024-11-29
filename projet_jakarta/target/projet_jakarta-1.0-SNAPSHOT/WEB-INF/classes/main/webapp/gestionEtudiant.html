@@ -218,7 +218,7 @@
             })
             .then(() => {
                 alert('Étudiant enregistré avec succès !');
-                fetchAndRenderStudents(); // Refresh the student list after adding
+                fetchAndRenderStudents(""); // Refresh the student list after adding
             })
             .catch(error => console.error('Error:', error));
 
@@ -226,7 +226,7 @@
     }
 
     // Fetch and Render Student List
-    function fetchAndRenderStudents(filter = '') {
+    function fetchAndRenderStudents(filter) {
         const apiUrl = 'http://localhost:8080/projet_jakarta_war_exploded/EtudiantServlet';
 
         fetch(apiUrl, {
@@ -247,18 +247,14 @@
     }
 
     // Render Students
-    function renderStudents(filter = '') {
+    function renderStudents(filter) {
         const studentList = document.getElementById('student-list');
         studentList.innerHTML = ''; // Clear existing table content
 
-        // Filter and map students to rows
-        students
-            .filter(student =>
-                student.name.toLowerCase().includes(filter.toLowerCase()) ||
-                student.surname.toLowerCase().includes(filter.toLowerCase())
-            )
-            .forEach((student, index) => {
-                const row = `
+        if (filter === '') {
+            students
+                .forEach((student, index) => {
+                    const row = `
                     <tr>
                         <td>${student.name}</td>
                         <td>${student.surname}</td>
@@ -270,8 +266,33 @@
                         </td>
                     </tr>
                 `;
-                studentList.innerHTML += row;
-            });
+                    studentList.innerHTML += row;
+                });
+        }else{
+            // Filter and map students to rows
+            students
+                .filter(student =>
+                    student.name.toLowerCase().includes(filter.toLowerCase()) ||
+                    student.surname.toLowerCase().includes(filter.toLowerCase())
+                )
+                .forEach((student, index) => {
+                    const row = `
+                    <tr>
+                        <td>${student.name}</td>
+                        <td>${student.surname}</td>
+                        <td>${student.dob}</td>
+                        <td>${student.contact}</td>
+                        <td class="actions">
+                            <button class="view-btn" onclick="viewStudent(${index})">Voir</button>
+                            <button class="delete-btn" onclick="deleteStudent(${index})">Supprimer</button>
+                        </td>
+                    </tr>
+                `;
+                    studentList.innerHTML += row;
+                });
+        }
+
+
     }
 
     // Transform JSON Data into Student Array
@@ -305,7 +326,7 @@
             .then(response => {
                 if (!response.ok) throw new Error('Erreur lors de la suppression de l\'étudiant.');
                 alert('Étudiant supprimé avec succès !');
-                fetchAndRenderStudents(); // Refresh the student list after deletion
+                fetchAndRenderStudents(""); // Refresh the student list after deletion
             })
             .catch(error => console.error('Error:', error));
     }
@@ -331,7 +352,7 @@
     }
 
     // Initial Fetch
-    document.addEventListener('DOMContentLoaded', fetchAndRenderStudents);
+    document.addEventListener('DOMContentLoaded', fetchAndRenderStudents(""));
 </script>
 
 </body>

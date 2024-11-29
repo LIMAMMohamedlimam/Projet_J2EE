@@ -43,20 +43,22 @@ public class EtudiantDAO {
     }
 
     public String getAllStudents() {
-        String json ="{";
+        String jsonresponse ="{";
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             List<Etudiant> etudiants =  session.createQuery("select e from Etudiant e", Etudiant.class).list();
             int i=0 ;
             for(Etudiant etu : etudiants){
+                String json = "{" ;
                 i++;
 
                 System.out.println(etu.toString());
-                json = json + parseSingleInput(etu.toString()) ;
-                if (i < etudiants.size()) json = json + ", ";
+                json = parseSingleInput(etu.toString()) ;
+                jsonresponse += "\""+ "etu" + (i-1) + "\":" +   json ;
+                if (i < etudiants.size()) jsonresponse = jsonresponse + ",";
             }
-            json = json+ "}" ;
+            jsonresponse += "}" ;
         }
-        return json ;
+        return jsonresponse ;
     }
 
 

@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,27 +53,71 @@ public class JsonParser {
             return objectMapper.readValue(jsonBuilder.toString(), UserData.class);
         }
 
+    //public static String parseSingleInput(String input) {
+    //    // Regex to match "Lastname Firstname YYYY-MM-DD"
+    //    String regex = "(\\w+)\\s+(\\w+)\\s+(\\d{4}-\\d{2}-\\d{2})";
+    //    Pattern pattern = Pattern.compile(regex);
+    //    Matcher matcher = pattern.matcher(input);
+//
+    //    if (matcher.matches()) {
+    //        // Extract details
+    //        String lastName = matcher.group(1);
+    //        String firstName = matcher.group(2);
+    //        String dateOfBirth = matcher.group(3);
+//
+    //        // Return formatted string
+    //        return  "\""+lastName+"\""  + " : {" +
+    //                "\"nom\": \"" + lastName + "\", " +
+    //                "\"prenom\": \"" + firstName + "\", " +
+    //                "\"dateDeNaissance\": \"" + dateOfBirth + "\"" +
+    //                "}";
+    //    } else {
+    //        // Handle invalid input
+    //        return "Invalid format";
+    //    }
+    //}
+
+
     public static String parseSingleInput(String input) {
-        // Regex to match "Lastname Firstname YYYY-MM-DD"
-        String regex = "(\\w+)\\s+(\\w+)\\s+(\\d{4}-\\d{2}-\\d{2})";
+        // Regex to match words (names) and date-like patterns (YYYY-MM-DD)
+        //String regex = "\\w+|\\d{4}-\\d{2}-\\d{2}";
+        String regex = "\\d{4}-\\d{2}-\\d{2}|\\w+";
+
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
 
-        if (matcher.matches()) {
-            // Extract details
-            String lastName = matcher.group(1);
-            String firstName = matcher.group(2);
-            String dateOfBirth = matcher.group(3);
+        ArrayList<String> elements = new ArrayList<>();
 
-            // Return formatted string
-            return  "\""+lastName+"\""  + " : {" +
-                    "\"nom\": \"" + lastName + "\", " +
-                    "\"prenom\": \"" + firstName + "\", " +
-                    "\"dateDeNaissance\": \"" + dateOfBirth + "\"" +
-                    "}";
-        } else {
-            // Handle invalid input
+        // Extract all matches
+        while (matcher.find()) {
+            elements.add(matcher.group());
+        }
+
+        // Validate that there are at least three elements
+        if (elements.size() < 3) {
             return "Invalid format";
         }
+
+        // Assign first three elements to specific fields
+        String lastName = elements.get(0);
+        String firstName = elements.get(1);
+        String dateOfBirth = elements.get(2);
+
+        // Prepare remaining elements if any
+        StringBuilder additionalInfo = new StringBuilder();
+        for (int i = 3; i < elements.size(); i++) {
+            additionalInfo.append("\"info").append(i - 2).append("\": \"").append(elements.get(i)).append("\"");
+            if (i < elements.size() - 1) {
+                additionalInfo.append(", ");
+            }
+        }
+
+        // Return formatted JSON-like string
+        return "{ " +
+                "\"nom\": \"" + lastName + "\", " +
+                "\"prenom\": \"" + firstName + "\", " +
+                "\"dateDeNaissance\": \"" + dateOfBirth + "\"" +
+                (additionalInfo.length() > 0 ? ", " + additionalInfo.toString() : "") +
+                " }";
     }
 }
