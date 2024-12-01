@@ -80,6 +80,28 @@ public class UtilisateurDAO implements DAOInterface <Utilisateur> {
         return utilisateur; // Returns null if no user is found
     }
 
+    public Utilisateur findByEmail(String email) {
+        Utilisateur utilisateur = null;
+
+        // Open Hibernate session
+        try (Session session = HibernateUtil.getSession()) {
+            // Create HQL query to find user by email and password
+            String hql = "FROM Utilisateur WHERE email = :email";
+            Query<Utilisateur> query = session.createQuery(hql, Utilisateur.class);
+            query.setParameter("email", email);
+
+
+            // Get single result
+            utilisateur = query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return utilisateur; // Returns null if no user is found
+    }
+
+
+
 
     public Utilisateur findByNameAndPronoun(String name, String pronoun) {
         // Open Hibernate session

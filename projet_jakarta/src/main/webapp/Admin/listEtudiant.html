@@ -5,6 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Étudiants</title>
     <style>
+
+        #customAlert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        #customAlertOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -135,41 +158,17 @@
         .search-bar .btn {
             padding: 10px 20px;
         }
+        #Delete-button {
+            background-color: red;
+        }
+
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="header">Gestion des Étudiants</div>
+    <div class="header">Listes des Étudiants</div>
 
-    <!-- Form for adding/updating student -->
-    <div class="form-container">
-        <h3>Enregistrer / Mettre à jour un étudiant</h3>
-        <div class="form-group">
-            <label for="student-name">Nom:</label>
-            <input type="text" id="student-name" placeholder="Nom">
-        </div>
-        <div class="form-group">
-            <label for="student-surname">Prénom:</label>
-            <input type="text" id="student-surname" placeholder="Prénom">
-        </div>
-        <div class="form-group">
-            <label for="student-dob">Date de Naissance:</label>
-            <input type="date" id="student-dob">
-        </div>
-        <div class="form-group">
-            <label for="student-email">Email:</label>
-            <input type="text" id="student-email">
-        </div>
-        <div class="form-group">
-            <label for="student-password">Password:</label>
-            <input type="text" id="student-password">
-        </div>
-        <div class="form-group">
-            <label for="student-contact">Contact:</label>
-            <input type="text" id="student-contact" placeholder="Contact">
-        </div>
-        <button class="btn" onclick="addOrUpdateStudent()">Enregistrer</button>
-    </div>
+
 
     <!-- Search and Filter -->
     <div class="search-bar">
@@ -194,50 +193,22 @@
     </table>
 </div>
 
+<div id="customAlertOverlay"></div>
+
+<div id="customAlert">
+    <p>Renseigner l'email de l'étudiant:</p>
+    <input type="text" id="userInput" placeholder="Email address" />
+    <button id="Delete-button" >Submit</button>
+    <button id="Cancel-button" onclick="closeAlert()">Cancel</button>
+</div>
+
+
 <script>
     let students = []; // Store students data globally
     let editingIndex = null;
+    let email ;
 
-    // Add or Update Student
-    function addOrUpdateStudent() {
-        const apiUrl = 'http://localhost:8080/projet_jakarta_war_exploded/EtudiantServlet';
-        const name = document.getElementById('student-name').value;
-        const surname = document.getElementById('student-surname').value;
-        const dob = document.getElementById('student-dob').value;
-        const contact = document.getElementById('student-contact').value;
-        const email = document.getElementById('student-email').value;
-        const password = document.getElementById('student-password').value;
 
-        if (!name || !surname || !dob || !contact) {
-            alert('Tous les champs sont obligatoires !');
-            return;
-        }
-
-        const student = { name, surname, dob, contact };
-
-        //const formData = new URLSearchParams();
-        //formData.append('student', student);
-        //formData.append('action', 'new' )
-
-        fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(student)
-        })
-            .then(response => {
-                if (!response.ok) throw new Error('Erreur lors de l\'ajout de l\'étudiant.');
-                return response.json();
-            })
-            .then(() => {
-                alert('Étudiant enregistré avec succès !');
-                fetchAndRenderStudents(""); // Refresh the student list after adding
-            })
-            .catch(error => console.error('Error:', error));
-
-        resetForm();
-    }
 
     // Fetch and Render Student List
     function fetchAndRenderStudents(filter) {
@@ -276,7 +247,7 @@
                         <td>${student.contact}</td>
                         <td class="actions">
                             <button class="view-btn" onclick="viewStudent(${index})">Voir</button>
-                            <button class="delete-btn" onclick="deleteStudent(${index})">Supprimer</button>
+                            <button class="delete-btn" onclick="showAlert(${index})">Supprimer</button>
                         </td>
                     </tr>
                 `;
@@ -298,7 +269,7 @@
                         <td>${student.contact}</td>
                         <td class="actions">
                             <button class="view-btn" onclick="viewStudent(${index})">Voir</button>
-                            <button class="delete-btn" onclick="deleteStudent(${index})">Supprimer</button>
+                            <button class="delete-btn" onclick="showAlert(${index}))">Supprimer</button>
                         </td>
                     </tr>
                 `;
@@ -319,23 +290,32 @@
                 name: student.prenom,
                 surname: student.nom,
                 dob: student.dateDeNaissance,
-                contact: `Contact information for ${student.prenom} ${student.nom}`
+                contact: `Contact information for ${student.prenom} ${student.nom}` ,
             });
         });
 
         return studentArray;
     }
 
-    // Delete Student
-    function deleteStudent(index) {
-        const student = students[index];
-        const apiUrl = `http://localhost:8080/projet_jakarta_war_exploded/EtudiantServlet/${student.name}`; // Adjust API endpoint as needed
+    function deleteprecedure(email , index) {
+        showAlert();
 
-        fetch(apiUrl, {
+
+    }
+
+    // Delete Student
+    function deleteStudent(email , index) {
+        const student = students[index];
+
+        fetch('http://localhost:8080/projet_jakarta_war_exploded/EtudiantServlet', {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: student.name,
+                email: email
+            }),
         })
             .then(response => {
                 if (!response.ok) throw new Error('Erreur lors de la suppression de l\'étudiant.');
@@ -351,19 +331,37 @@
         alert(`Détails:\nNom: ${student.name}\nPrénom: ${student.surname}\nDate de Naissance: ${student.dob}\nContact: ${student.contact}`);
     }
 
-    // Reset Form
-    function resetForm() {
-        document.getElementById('student-name').value = '';
-        document.getElementById('student-surname').value = '';
-        document.getElementById('student-dob').value = '';
-        document.getElementById('student-contact').value = '';
-    }
+
 
     // Search Students
     function searchStudents() {
         const filter = document.getElementById('search-bar').value;
         renderStudents(filter);
     }
+
+    // Show the custom alert
+    function showAlert(index) {
+        document.getElementById('customAlert').style.display = 'block';
+        document.getElementById('customAlertOverlay').style.display = 'block';
+        document.getElementById('Delete-button').addEventListener('click', () => {
+            submitInput(index)
+        })
+    }
+
+    // Close the custom alert
+    function closeAlert() {
+        document.getElementById('customAlert').style.display = 'none';
+        document.getElementById('customAlertOverlay').style.display = 'none';
+    }
+
+    // Submit the input value
+    function submitInput(index) {
+        const email = document.getElementById('userInput').value;
+        closeAlert(); // Close the alert
+        deleteStudent(email , index)
+        alert(`You entered: ${input}`); // Show the input in a standard alert
+    }
+
 
     // Initial Fetch
     document.addEventListener('DOMContentLoaded', fetchAndRenderStudents(""));

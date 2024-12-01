@@ -12,6 +12,7 @@
     <mapping class="com.cytech.projet_jakarta.model.Utilisateur"/>
     <mapping resource="Utilisateur.hbm.xml"/>
     <mapping resource="Etudiant.hbm.xml"/>
+    <mapping resource="Enseignant.hbm.xml"/>
 
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->

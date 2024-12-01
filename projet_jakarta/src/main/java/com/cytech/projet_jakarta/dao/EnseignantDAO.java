@@ -1,6 +1,6 @@
 package com.cytech.projet_jakarta.dao;
 
-import com.cytech.projet_jakarta.model.Etudiant;
+import com.cytech.projet_jakarta.model.Enseignant;
 import com.cytech.projet_jakarta.utility.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -13,12 +13,12 @@ import java.util.List;
 
 import static com.cytech.projet_jakarta.utility.JsonParser.parseSingleInput;
 
-public class EtudiantDAO {
-    public void saveStudent(Etudiant etudiant) {
+public class EnseignantDAO {
+    public void saveTeacher(Enseignant Enseignant) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.persist(etudiant);
+            session.persist(Enseignant);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
@@ -26,15 +26,15 @@ public class EtudiantDAO {
         }
     }
 
-    public int saveStudentData(Utilisateur util)  {
-        Etudiant newEtudiant = new Etudiant();
-        newEtudiant.setNom(util.getNom());
-        newEtudiant.setPrenom(util.getPrenom());
-        newEtudiant.setEtudUtiFk(util.getId());
-        newEtudiant.setDateDeNaissance(util.getDateDeNaissance());
+    public int saveTeacherData(Utilisateur util)  {
+        Enseignant newEnseignant = new Enseignant();
+        newEnseignant.setNom(util.getNom());
+        newEnseignant.setPrenom(util.getPrenom());
+        newEnseignant.setEnseignantUtilisateurFk(util.getId());
+        newEnseignant.setDateDeNaissance(util.getDateDeNaissance());
         try (Session session = HibernateUtil.getSession()) {
             Transaction tx = session.beginTransaction();
-            session.persist(newEtudiant);
+            session.persist(newEnseignant);
             tx.commit();
         } catch (HibernateException e) {
             e.printStackTrace();
@@ -43,16 +43,16 @@ public class EtudiantDAO {
         return 0;
     }
 
-    public Etudiant findStudentById(int id) {
+    public Enseignant findTeacherById(int id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.get(Etudiant.class, id);
+            return session.get(Enseignant.class, id);
         }
     }
 
-    public List<Etudiant> searchByName(String keyword) {
+    public List<Enseignant> searchByName(String keyword) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            String hql = "from Etudiant where nom like :keyword or prenom like :keyword";
-            return session.createQuery(hql, Etudiant.class)
+            String hql = "from Enseignant where nom like :keyword or prenom like :keyword";
+            return session.createQuery(hql, Enseignant.class)
                     .setParameter("keyword", "%" + keyword + "%")
                     .list();
         } catch (Exception e) {
@@ -61,50 +61,50 @@ public class EtudiantDAO {
         }
     }
 
-    public List<Etudiant> findByNameAndPronoun(String nom, String prenom) {
+    public List<Enseignant> findByNameAndPronoun(String nom, String prenom) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            String hql = "select e from Etudiant e   where e.nom like :nom and e.prenom like :prenom ";
-            return session.createQuery(hql, Etudiant.class)
+            String hql = "select e from Enseignant e   where e.nom like :nom and e.prenom like :prenom ";
+            return session.createQuery(hql, Enseignant.class)
                     .setParameter("nom", "%" + nom + "%")
                     .setParameter("prenom", "%" + prenom + "%")
                     .getResultList();
         }
     }
 
-    public String getAllStudents() {
-            String jsonresponse = "{";
-            try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-                List<Etudiant> etudiants = session.createQuery("select e from Etudiant e", Etudiant.class).list();
-                int i = 0;
-                for (Etudiant etu : etudiants) {
-                    String json = "{";
-                    i++;
+    public String getAllTeachers() {
+        String jsonresponse = "{";
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            List<Enseignant> Enseignants = session.createQuery("select e from Enseignant e", Enseignant.class).list();
+            int i = 0;
+            for (Enseignant etu : Enseignants) {
+                String json = "{";
+                i++;
 
-                    System.out.println(etu.toString());
-                    json = parseSingleInput(etu.toString());
-                    jsonresponse += "\"" + "etu" + (i - 1) + "\":" + json;
-                    if (i < etudiants.size()) jsonresponse = jsonresponse + ",";
-                }
-                jsonresponse += "}";
+                System.out.println(etu.toString());
+                json = parseSingleInput(etu.toString());
+                jsonresponse += "\"" + "etu" + (i - 1) + "\":" + json;
+                if (i < Enseignants.size()) jsonresponse = jsonresponse + ",";
             }
-            return jsonresponse;
+            jsonresponse += "}";
+        }
+        return jsonresponse;
 
     }
 
-    public List<Etudiant> getAllStudentsList() {
+    public List<Enseignant> getAllTeachersList() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("select e from Etudiant e", Etudiant.class).list();
+            return session.createQuery("select e from Enseignant e", Enseignant.class).list();
         }
 
     }
 
 
 
-    public void updateStudent(Etudiant etudiant) {
+    public void updateTeacher(Enseignant Enseignant) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.merge(etudiant);
+            session.merge(Enseignant);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
@@ -112,14 +112,14 @@ public class EtudiantDAO {
         }
     }
 
-    public void deleteStudent(int id) {
+    public void deleteTeacher(int id) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            Etudiant etudiant = session.get(Etudiant.class, id);
-            if (etudiant != null) {
-                session.remove(etudiant);
+            Enseignant Enseignant = session.get(Enseignant.class, id);
+            if (Enseignant != null) {
+                session.remove(Enseignant);
             }
             transaction.commit();
         } catch (Exception e) {
@@ -127,16 +127,16 @@ public class EtudiantDAO {
             e.printStackTrace();
         }
     }
-    public void deleteStudent(String email) {
+    public void deleteTeacher(String email) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             Utilisateur util = new UtilisateurDAO().findByEmail(email) ;
             if (util != null) {
-                Etudiant etudiant = new EtudiantDAO().findByFkUtil(util.getId()) ;
-                System.out.println(etudiant);
-                if (etudiant != null) {
-                    session.remove(etudiant);
+                Enseignant Enseignant = new EnseignantDAO().findByFkUtil(util.getId()) ;
+                System.out.println(Enseignant);
+                if (Enseignant != null) {
+                    session.remove(Enseignant);
                     session.remove(util);
                 }
             }
@@ -146,10 +146,10 @@ public class EtudiantDAO {
         }
     }
 
-    public Etudiant findByFkUtil(int Etud_uti_fk) {
+    public Enseignant findByFkUtil(int Etud_uti_fk) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            String hql = "select e from Etudiant e where e.etudUtiFk = :Etud_uti_fk";
-            return session.createQuery(hql, Etudiant.class)
+            String hql = "select e from Enseignant e where e.etudUtiFk = :Etud_uti_fk";
+            return session.createQuery(hql, Enseignant.class)
                     .setParameter("Etud_uti_fk", Etud_uti_fk)
                     .getSingleResult();
         }

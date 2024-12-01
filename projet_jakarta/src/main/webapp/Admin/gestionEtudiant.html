@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Étudiants</title>
     <style>
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -138,6 +139,7 @@
     </style>
 </head>
 <body>
+
 <div class="container">
     <div class="header">Gestion des Étudiants</div>
 
@@ -171,28 +173,9 @@
         <button class="btn" onclick="addOrUpdateStudent()">Enregistrer</button>
     </div>
 
-    <!-- Search and Filter -->
-    <div class="search-bar">
-        <input type="text" id="search-bar" placeholder="Rechercher un étudiant..." >
-        <button class="btn" onclick="searchStudents()">Rechercher</button>
-    </div>
 
-    <!-- Student List -->
-    <table class="student-table">
-        <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Date de Naissance</th>
-            <th>Contact</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody id="student-list">
-        <!-- Rows will be added dynamically -->
-        </tbody>
-    </table>
 </div>
+
 
 <script>
     let students = []; // Store students data globally
@@ -208,13 +191,16 @@
         const email = document.getElementById('student-email').value;
         const password = document.getElementById('student-password').value;
 
-        if (!name || !surname || !dob || !contact) {
+        if (!name || !surname || !dob || !contact || !email || !password) {
             alert('Tous les champs sont obligatoires !');
             return;
         }
 
-        const student = { name, surname, dob, contact };
+        const student = { name, surname, dob, contact , email , password };
 
+        console.log(student);
+        console.log(email);
+        console.log(dob) ;
         //const formData = new URLSearchParams();
         //formData.append('student', student);
         //formData.append('action', 'new' )
@@ -230,9 +216,8 @@
                 if (!response.ok) throw new Error('Erreur lors de l\'ajout de l\'étudiant.');
                 return response.json();
             })
-            .then(() => {
-                alert('Étudiant enregistré avec succès !');
-                fetchAndRenderStudents(""); // Refresh the student list after adding
+            .then((response) => {
+                alert(response.message);
             })
             .catch(error => console.error('Error:', error));
 
@@ -328,6 +313,7 @@
 
     // Delete Student
     function deleteStudent(index) {
+        showAlert();
         const student = students[index];
         const apiUrl = `http://localhost:8080/projet_jakarta_war_exploded/EtudiantServlet/${student.name}`; // Adjust API endpoint as needed
 
@@ -357,16 +343,13 @@
         document.getElementById('student-surname').value = '';
         document.getElementById('student-dob').value = '';
         document.getElementById('student-contact').value = '';
+        document.getElementById('student-email').value = '';
+        document.getElementById('student-password').value = '';
     }
 
-    // Search Students
-    function searchStudents() {
-        const filter = document.getElementById('search-bar').value;
-        renderStudents(filter);
-    }
+
 
     // Initial Fetch
-    document.addEventListener('DOMContentLoaded', fetchAndRenderStudents(""));
 </script>
 
 </body>

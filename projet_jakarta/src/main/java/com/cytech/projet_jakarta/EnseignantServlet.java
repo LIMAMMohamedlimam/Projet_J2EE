@@ -4,13 +4,12 @@ package com.cytech.projet_jakarta ;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 
-import com.cytech.projet_jakarta.dao.EtudiantDAO;
+import com.cytech.projet_jakarta.dao.EnseignantDAO;
 import com.cytech.projet_jakarta.dao.UtilisateurDAO;
-import com.cytech.projet_jakarta.model.Etudiant;
+import com.cytech.projet_jakarta.model.Enseignant;
 import com.cytech.projet_jakarta.model.Utilisateur;
 import com.cytech.projet_jakarta.utility.UserData;
 import com.google.gson.Gson;
@@ -24,15 +23,15 @@ import org.json.simple.JSONObject;
 import static com.cytech.projet_jakarta.utility.JsonParser.getUserDataFromRequest;
 
 
-@WebServlet("/EtudiantServlet")
-public class EtudiantServlet extends HttpServlet {
+@WebServlet("/EnseignantServlet")
+public class EnseignantServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private EtudiantDAO etudiantDAO;
+    private EnseignantDAO EnseignantDAO;
     private JSONObject responseMessage = new JSONObject();
 
     @Override
     public void init() {
-        etudiantDAO = new EtudiantDAO();
+        EnseignantDAO = new EnseignantDAO();
     }
 
     @Override
@@ -52,53 +51,53 @@ public class EtudiantServlet extends HttpServlet {
                 showEditForm(request, response);
                 break;
             case "delete":
-                deleteEtudiant(request, response);
+                deleteEnseignant(request, response);
                 break;
             case "search":
-                searchEtudiants(request, response);
+                searchEnseignants(request, response);
                 break;
             default:
                 //System.out.println("hello");
-                listEtudiants(request, response);
+                listEnseignants(request, response);
                 break;
         }
     }
 
-    private void listEtudiants(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //List<Etudiant> etudiants = etudiantDAO.getAllStudents();
-        //for (Etudiant etudiant : etudiants) {}
-        //request.setAttribute("etudiants", etudiants);
-        //request.getRequestDispatcher("etudiant-list.jsp").forward(request, response);
+    private void listEnseignants(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //List<Enseignant> Enseignants = EnseignantDAO.getAllTeachers();
+        //for (Enseignant Enseignant : Enseignants) {}
+        //request.setAttribute("Enseignants", Enseignants);
+        //request.getRequestDispatcher("Enseignant-list.jsp").forward(request, response);
         response.setContentType("application/json");
-        //System.out.println("liste etudiant "+ etudiantDAO.getAllStudents());
-        response.getWriter().write(etudiantDAO.getAllStudents());
+        //System.out.println("liste Enseignant "+ EnseignantDAO.getAllTeachers());
+        response.getWriter().write(EnseignantDAO.getAllTeachers());
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("etudiant-form.jsp").forward(request, response);
-        etudiantDAO = new EtudiantDAO();
-        List<Etudiant> etudinatlist = etudiantDAO.getAllStudentsList() ;
+        request.getRequestDispatcher("Enseignant-form.jsp").forward(request, response);
+        EnseignantDAO = new EnseignantDAO();
+        List<Enseignant> etudinatlist = EnseignantDAO.getAllTeachersList() ;
     }
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        Etudiant existingEtudiant = etudiantDAO.findStudentById(id);
-        request.setAttribute("etudiant", existingEtudiant);
-        request.getRequestDispatcher("etudiant-form.jsp").forward(request, response);
+        Enseignant existingEnseignant = EnseignantDAO.findTeacherById(id);
+        request.setAttribute("Enseignant", existingEnseignant);
+        request.getRequestDispatcher("Enseignant-form.jsp").forward(request, response);
     }
 
-    private void deleteEtudiant(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void deleteEnseignant(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        etudiantDAO.deleteStudent(id);
-        response.sendRedirect("EtudiantServlet");
+        EnseignantDAO.deleteTeacher(id);
+        response.sendRedirect("EnseignantServlet");
     }
 
-    private void searchEtudiants(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void searchEnseignants(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String keyword = request.getParameter("keyword");
-        List<Etudiant> etudiants = etudiantDAO.searchByName(keyword);
-        request.setAttribute("etudiants", etudiants);
-        request.getRequestDispatcher("etudiant-list.jsp").forward(request, response);
+        List<Enseignant> Enseignants = EnseignantDAO.searchByName(keyword);
+        request.setAttribute("Enseignants", Enseignants);
+        request.getRequestDispatcher("Enseignant-list.jsp").forward(request, response);
     }
 
     @Override
@@ -114,45 +113,45 @@ public class EtudiantServlet extends HttpServlet {
         String dob = userData.getDob();
         System.out.println(dob);
         String contact =  userData.getContact() ;
-        Etudiant newEtudiant ;
+        Enseignant newEnseignant ;
 
-        //List <Etudiant> etudiants = etudiantDAO.findByNameAndPronoun(nom , prenom) ;
-        Utilisateur utilisateurEtudiant = utiDao.findByNameAndPronoun(prenom, nom);
-        if(utilisateurEtudiant != null)
-            System.out.println("utilisateur: "+utilisateurEtudiant);
-        if(utilisateurEtudiant != null) {
-            newEtudiant = new Etudiant();
-            newEtudiant.setEtudUtiFk(utilisateurEtudiant.getId());
-            newEtudiant.setNom(userData.getName());
-            newEtudiant.setPrenom(userData.getSurname());
-            newEtudiant.setDateDeNaissance(utilisateurEtudiant.getDateDeNaissance());
-            etudiantDAO.updateStudent(newEtudiant);
+        //List <Enseignant> Enseignants = EnseignantDAO.findByNameAndPronoun(nom , prenom) ;
+        Utilisateur utilisateurEnseignant = utiDao.findByNameAndPronoun(prenom, nom);
+        if(utilisateurEnseignant != null)
+            System.out.println("utilisateur: "+utilisateurEnseignant);
+        if(utilisateurEnseignant != null) {
+            newEnseignant = new Enseignant();
+            newEnseignant.setEnseignantUtilisateurFk(utilisateurEnseignant.getId());
+            newEnseignant.setNom(userData.getName());
+            newEnseignant.setPrenom(userData.getSurname());
+            newEnseignant.setDateDeNaissance(utilisateurEnseignant.getDateDeNaissance());
+            EnseignantDAO.updateTeacher(newEnseignant);
             response.setStatus(HttpServletResponse.SC_OK);
-            responseMessage.put("message","Etudiant: "+newEtudiant.getContact() +" "+newEtudiant.getPrenom() + " est mis à jour." ) ;
+            responseMessage.put("message","Enseignant: "+newEnseignant.getContact() +" "+newEnseignant.getPrenom() + " est mis à jour." ) ;
             response.setContentType("application/json");
             response.getWriter().write(responseMessage.toString());
         }else{
             LocalDate localDate = LocalDate.parse(dob);
             System.out.println(localDate);
-            newEtudiant = new Etudiant();
-            utilisateurEtudiant = new Utilisateur();
-            utilisateurEtudiant.setNom(nom);
-            utilisateurEtudiant.setPrenom(prenom);
-            utilisateurEtudiant.setEmail(email);
-            utilisateurEtudiant.setPassword(password);
-            utilisateurEtudiant.setContact(contact);
-            utilisateurEtudiant.setRole("etudiant");
-            utilisateurEtudiant.setDateDeNaissance(localDate);
-            utiDao.saveData(utilisateurEtudiant);
-            newEtudiant.setPrenom(prenom);
-            newEtudiant.setNom(nom);
-            newEtudiant.setContact(contact) ;
-            newEtudiant.setDateDeNaissance(localDate);
+            newEnseignant = new Enseignant();
+            utilisateurEnseignant = new Utilisateur();
+            utilisateurEnseignant.setNom(nom);
+            utilisateurEnseignant.setPrenom(prenom);
+            utilisateurEnseignant.setEmail(email);
+            utilisateurEnseignant.setPassword(password);
+            utilisateurEnseignant.setContact(contact);
+            utilisateurEnseignant.setRole("Enseignant");
+            utilisateurEnseignant.setDateDeNaissance(localDate);
+            utiDao.saveData(utilisateurEnseignant);
+            newEnseignant.setPrenom(prenom);
+            newEnseignant.setNom(nom);
+            newEnseignant.setContact(contact) ;
+            newEnseignant.setDateDeNaissance(localDate);
             System.out.println(localDate);
-            etudiantDAO.saveStudentData(utilisateurEtudiant);
+            EnseignantDAO.saveTeacherData(utilisateurEnseignant);
 
             response.setStatus(HttpServletResponse.SC_OK);
-            responseMessage.put("message","Etudiant: "+newEtudiant.getContact() +" "+newEtudiant.getPrenom() + " est bien ajouter." ) ;
+            responseMessage.put("message","Enseignant: "+newEnseignant.getContact() +" "+newEnseignant.getPrenom() + " est bien ajouter." ) ;
             response.setContentType("application/json");
             response.getWriter().write(responseMessage.toString());
 
@@ -178,20 +177,20 @@ public class EtudiantServlet extends HttpServlet {
 
         // Convert JSON string to an object (e.g., using Gson or Jackson)
         Gson gson = new Gson();
-        UserData student = gson.fromJson(requestBody, UserData.class);
-        String email = student.getEmail();
-        etudiantDAO.deleteStudent(email);
+        UserData Teacher = gson.fromJson(requestBody, UserData.class);
+        String email = Teacher.getEmail();
+        EnseignantDAO.deleteTeacher(email);
 
-        // Now you have the student data
-        System.out.println("Name: " + student.getName());
-        System.out.println("Email: " + student.getEmail());
+        // Now you have the Teacher data
+        System.out.println("Name: " + Teacher.getName());
+        System.out.println("Email: " + Teacher.getEmail());
 
         // Respond to the client
         response.setStatus(HttpServletResponse.SC_OK);
-        responseMessage.put("message" ,"Data deleted for: " + student.getName() + " with email " + student.getEmail() );
+        responseMessage.put("message" ,"Data deleted for: " + Teacher.getName() + " with email " + Teacher.getEmail() );
         response.setContentType("application/json");
         response.getWriter().write(responseMessage.toString());
     }
 
-    }
+}
 
