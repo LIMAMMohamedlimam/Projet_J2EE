@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.cytech.projet_jakarta.model">
+    <class name="com.cytech.projet_jakarta.model.Matiere" table="Matiere" schema="GestionScolarite">
+        <id name="idMatiere" column="idMatiere" type="java.lang.Integer">
+            <generator class="identity"/>
+        </id>
+
+        <property name="nom" column="nom" type="string" length="50" not-null="false"/>
+
+    </class>
+</hibernate-mapping>

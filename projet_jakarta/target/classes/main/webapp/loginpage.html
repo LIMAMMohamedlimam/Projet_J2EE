@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html  class="h-full bg-whi" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+
+        :root{
+            --blue: #2760AB
+        }
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            top: 70px;
+        }
+
+        .left-div{
+            background-color: #D9D9D9;
+            width: 650px;
+            height: 800px;
+            border-radius: 12px 0 0 12px;
+        }
+
+        .right-div{
+            background-color: var(--blue);
+            width: 650px;
+            height: 800px;
+            justify-content: center;
+            border-radius: 0 12px 12px 0;
+
+        }
+
+        .center-div{
+            width: 1300px;
+            height: 800px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            left: 50px;
+            right: 50px;
+            box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+            border-radius: 12px ;
+        }
+
+        .login-container{
+            vertical-align: middle;
+            justify-content: center;
+            position: relative;
+            top: 25%;
+        }
+
+        .login-h2{
+            color: var(--blue);
+            display: block;
+            text-align: center;
+
+
+        }
+
+        #loginform{
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        h3{
+            color: rgb(99, 99, 99);
+            font-size: 13px;
+            display: inline-block;
+            position: relative;
+            left: 20%;
+            margin-bottom: 5px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        #email , #password {
+            border: 0.5px var(--blue) solid;
+            margin-top: 0;
+            height: 44px;
+            display: flex;
+            width: 370px;
+            position: relative;
+            left: 20%;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: rgb(170, 170, 170);
+            font-size: 14px;
+            border-radius: 8px;
+
+        }
+
+        #password{
+            margin-bottom: 15px;
+
+
+        }
+
+        #submit-button{
+            display: block;
+            width: 370px;
+            height: 44px;
+            position: relative;
+            left: 20%;
+            background: var(--blue);
+            color: white;
+            font-size: 15px;
+            border: white;
+            border-radius: 8px;
+
+        }
+
+        #copy-right{
+            justify-content: center;
+            display: inline-block;
+            width: fit-content;
+            left: 34%;
+            position: absolute;
+            bottom: -300px;
+            color: #777676;
+            font-size: 12px;
+        }
+
+
+        #cy-logo{
+            width: 500px;
+            height: fit-content;
+            position: relative;
+            left: 8%;
+            margin-top: 10%;
+            top: 10%;
+        }
+
+
+        #logo-text{
+            color: white;
+            position: relative;
+            display: inline-block;
+            width: fit-content;
+            top: 13%;
+            font-size: 42px;
+            left: 20%;
+        }
+
+        .loader {
+            display: none;
+            position: relative;
+            left: 44%;
+            margin-top: 50px;
+            width: 40px;
+            padding: 8px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: var(--blue);
+            --_m:
+                    conic-gradient(#0000 10%,#000),
+                    linear-gradient(#000 0 0) content-box;
+            -webkit-mask: var(--_m);
+            mask: var(--_m);
+            -webkit-mask-composite: source-out;
+            mask-composite: subtract;
+        }
+        @keyframes l3 {
+            to { transform: rotate(1turn) }
+        }
+
+        .loader.animate{
+            animation: l3 1s infinite linear;
+        }
+
+        #customAlert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        #customAlertOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+    <div class="center-div">
+        <div class="left-div">
+            <div class="login-container">
+                <h2 class="login-h2">Login</h2> 
+                <form id="loginform" method="POST"  > <br>
+                    <h3>Email</h3>
+                    <input id="email" type="email" name="email" placeholder="Enter Email" required> <br>
+                    <h3>Password</h3>
+                    <input id="password" type="password" name="password" placeholder="Enter Password" required> <br>
+                    <input id="submit-button"  type="submit" value="Login">
+                    <div class="loader"></div>
+
+                </form>
+
+                <p id="copy-right">2024 CY Tech, All right Reserved</p>
+            </div>
+        </div>
+        <div class="right-div">
+            <img id="cy-logo" src="cytech.png" alt="CY_Tech.logo">
+            <p id="logo-text">Managment System</p>
+        </div>
+    </div>
+
+    <div id="customAlertOverlay"></div>
+
+    <div id="customAlert">
+        <p id="p-popup" ></p>
+        <button  id="Cancel-button" onclick="closeAlert()">Ok</button>
+    </div>
+
+    <script>
+        function showAlert(index) {
+            document.querySelector('.loader').style.display = 'none';
+            document.querySelector('.loader').classList.remove('animate');
+            document.getElementById("p-popup").innerText = index;
+            document.getElementById('customAlert').style.display = 'block';
+            document.getElementById('customAlertOverlay').style.display = 'block';
+            document.getElementById('Delete-button').addEventListener('click', () => {
+            })
+        }
+
+        // Close the custom alert
+        function closeAlert() {
+            document.getElementById('customAlert').style.display = 'none';
+            document.getElementById('customAlertOverlay').style.display = 'none';
+        }
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('submit-button').addEventListener('click', function() {
+            document.getElementById('copy-right').style.display = 'none';
+            document.querySelector('.loader').style.display = 'block';
+            document.querySelector('.loader').classList.add('animate');
+
+        });
+        const loginForm = document.getElementById('loginform');
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+
+
+            fetch('http://localhost:8080/projet_jakarta_war_exploded/logincontroller', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Login failed');
+                        //alert(response.message);
+                        showAlert(response.message);
+                        document.querySelector('.loader').style.display = 'none';
+                        document.querySelector('.loader').classList.remove('animate');
+
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log('Login successful ', data);
+                    const josnData = data ;
+                    if(josnData.role === "enseignant"){
+                        window.location.href = 'Enseignant/enseignant-dashboard.jsp' ;
+                    }else if(josnData.role === "etudiant"){
+                        window.location.href = 'Etudiant/etudiant-dashboard.jsp' ;
+                    }else if(josnData.role === "admin"){
+                        window.location.href = 'Admin/admin-dashboard.jsp';
+                    }else {
+                        location.reload() ;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert(error.message);
+                    document.querySelector('.loader').style.display = 'none';
+                    document.querySelector('.loader').classList.remove('animate');
+                });
+        });
+    });
+</script>
+</body>
+</html>

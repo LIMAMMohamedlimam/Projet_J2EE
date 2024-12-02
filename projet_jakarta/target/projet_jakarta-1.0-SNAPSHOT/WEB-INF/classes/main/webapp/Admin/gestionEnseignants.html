@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Enseignants</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-container {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .form-container h3 {
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #2e86c1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #1b4f72;
+        }
+
+        .Teacher-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .Teacher-table th, .Teacher-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .Teacher-table th {
+            background-color: #2e86c1;
+            color: white;
+        }
+
+        .actions button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .actions .delete-btn {
+            background-color: #d9534f;
+            color: white;
+        }
+
+        .actions .delete-btn:hover {
+            background-color: #b52a25;
+        }
+
+        .actions .view-btn {
+            background-color: #5bc0de;
+            color: white;
+        }
+
+        .actions .view-btn:hover {
+            background-color: #1b6f9c;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-bar input {
+            width: 70%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+
+        .search-bar .btn {
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">Gestion des Enseignant</div>
+
+    <!-- Form for adding/updating Teacher -->
+    <div class="form-container">
+        <h3>Enregistrer / Mettre à jour un enseignant</h3>
+        <div class="form-group">
+            <label for="Teacher-name">Nom:</label>
+            <input type="text" id="Teacher-name" placeholder="Nom">
+        </div>
+        <div class="form-group">
+            <label for="Teacher-surname">Prénom:</label>
+            <input type="text" id="Teacher-surname" placeholder="Prénom">
+        </div>
+        <div class="form-group">
+            <label for="Teacher-dob">Date de Naissance:</label>
+            <input type="date" id="Teacher-dob">
+        </div>
+        <div class="form-group">
+            <label for="Teacher-email">Email:</label>
+            <input type="text" id="Teacher-email">
+        </div>
+        <div class="form-group">
+            <label for="Teacher-password">Password:</label>
+            <input type="text" id="Teacher-password">
+        </div>
+        <div class="form-group">
+            <label for="Teacher-contact">Contact:</label>
+            <input type="text" id="Teacher-contact" placeholder="Contact">
+        </div>
+        <button class="btn" onclick="addOrUpdateTeacher()">Enregistrer</button>
+    </div>
+
+
+</div>
+
+
+<script>
+    let Teachers = []; // Store Teachers data globally
+    let editingIndex = null;
+
+    // Add or Update Teacher
+    function addOrUpdateTeacher() {
+        const apiUrl = 'http://localhost:8080/projet_jakarta_war_exploded/EnseignantServlet';
+        const name = document.getElementById('Teacher-name').value;
+        const surname = document.getElementById('Teacher-surname').value;
+        const dob = document.getElementById('Teacher-dob').value;
+        const contact = document.getElementById('Teacher-contact').value;
+        const email = document.getElementById('Teacher-email').value;
+        const password = document.getElementById('Teacher-password').value;
+
+        if (!name || !surname || !dob || !contact || !email || !password) {
+            alert('Tous les champs sont obligatoires !');
+            return;
+        }
+
+        const Teacher = { name, surname, dob, contact , email , password };
+
+        console.log(Teacher);
+        console.log(email);
+        console.log(dob) ;
+        //const formData = new URLSearchParams();
+        //formData.append('Teacher', Teacher);
+        //formData.append('action', 'new' )
+
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(Teacher)
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Erreur lors de l\'ajout de l\'enseignant.');
+                return response.json();
+            })
+            .then((response) => {
+                alert(response.message);
+            })
+            .catch(error => console.error('Error:', error));
+
+        resetForm();
+    }
+
+    // Fetch and Render Teacher List
+    function fetchAndRenderTeachers(filter) {
+        const apiUrl = 'http://localhost:8080/projet_jakarta_war_exploded/EnseignantServlet';
+
+        fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Erreur lors de la récupération des enseignants.');
+                return response.json();
+            })
+            .then(data => {
+                Teachers = fillTeacherList(data);
+                renderTeachers(filter); // Pass the filter for dynamic rendering
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Render Teachers
+    function renderTeachers(filter) {
+        const TeacherList = document.getElementById('Teacher-list');
+        TeacherList.innerHTML = ''; // Clear existing table content
+
+        if (filter === '') {
+            Teachers
+                .forEach((Teacher, index) => {
+                    const row = `
+                    <tr>
+                        <td>${Teacher.name}</td>
+                        <td>${Teacher.surname}</td>
+                        <td>${Teacher.dob}</td>
+                        <td>${Teacher.contact}</td>
+                        <td class="actions">
+                            <button class="view-btn" onclick="viewTeacher(${index})">Voir</button>
+                            <button class="delete-btn" onclick="deleteTeacher(${index})">Supprimer</button>
+                        </td>
+                    </tr>
+                `;
+                    TeacherList.innerHTML += row;
+                });
+        }else{
+            // Filter and map Teachers to rows
+            Teachers
+                .filter(Teacher =>
+                    Teacher.name.toLowerCase().includes(filter.toLowerCase()) ||
+                    Teacher.surname.toLowerCase().includes(filter.toLowerCase())
+                )
+                .forEach((Teacher, index) => {
+                    const row = `
+                    <tr>
+                        <td>${Teacher.name}</td>
+                        <td>${Teacher.surname}</td>
+                        <td>${Teacher.dob}</td>
+                        <td>${Teacher.contact}</td>
+                        <td class="actions">
+                            <button class="view-btn" onclick="viewTeacher(${index})">Voir</button>
+                            <button class="delete-btn" onclick="deleteTeacher(${index})">Supprimer</button>
+                        </td>
+                    </tr>
+                `;
+                    TeacherList.innerHTML += row;
+                });
+        }
+
+
+    }
+
+    // Transform JSON Data into Teacher Array
+    function fillTeacherList(jsonData) {
+        const TeacherArray = [];
+
+        Object.keys(jsonData).forEach(key => {
+            const Teacher = jsonData[key];
+            TeacherArray.push({
+                name: Teacher.prenom,
+                surname: Teacher.nom,
+                dob: Teacher.dateDeNaissance,
+                contact: `Contact information for ${Teacher.prenom} ${Teacher.nom}`
+            });
+        });
+
+        return TeacherArray;
+    }
+
+    // Delete Teacher
+    function deleteTeacher(index) {
+        showAlert();
+        const Teacher = Teachers[index];
+        const apiUrl = `http://localhost:8080/projet_jakarta_war_exploded/EnseignantServlet/${Teacher.name}`; // Adjust API endpoint as needed
+
+        fetch(apiUrl, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Erreur lors de la suppression de l\'enseignant.');
+                alert('Enseignant supprimé avec succès !');
+                fetchAndRenderTeachers(""); // Refresh the Teacher list after deletion
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // View Teacher Details
+    function viewTeacher(index) {
+        const Teacher = Teachers[index];
+        alert(`Détails:\nNom: ${Teacher.name}\nPrénom: ${Teacher.surname}\nDate de Naissance: ${Teacher.dob}\nContact: ${Teacher.contact}`);
+    }
+
+    // Reset Form
+    function resetForm() {
+        document.getElementById('Teacher-name').value = '';
+        document.getElementById('Teacher-surname').value = '';
+        document.getElementById('Teacher-dob').value = '';
+        document.getElementById('Teacher-contact').value = '';
+        document.getElementById('Teacher-email').value = '';
+        document.getElementById('Teacher-password').value = '';
+    }
+
+
+
+    // Initial Fetch
+</script>
+
+</body>
+</html>
