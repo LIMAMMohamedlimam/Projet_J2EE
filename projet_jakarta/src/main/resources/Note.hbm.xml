@@ -3,12 +3,12 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.cytech.projet_jakarta.model">
-    <class name="com.cytech.projet_jakarta.model.Etudiant" table="Etudiant" schema="GestionScolarite">
+    <class name="com.cytech.projet_jakarta.model.Note" table="Note" schema="GestionScolarite">
         <id name="id" column="id" type="java.lang.Integer">
             <generator class="identity"/>
         </id>
 
-        <property name="nom" column="nom" type="string" length="30" not-null="false"/>
+        <property name="idEtudiant" column="idEtudiant" type="java.a" not-null="false"/>
         <property name="prenom" column="prenom" type="string" length="30" not-null="true"/>
         <property name="dateDeNaissance" column="dateDeNaissance" type="java.time.LocalDate"/>
         <property name="etudUtiFk" column="Etud_uti_fk" type="java.lang.Integer" />

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.cytech.projet_jakarta.model">
+    <class name="com.cytech.projet_jakarta.model.Cours" table="Cours" schema="GestionScolarite">
+        <id name="idCours" column="idCours" type="java.lang.Integer">
+            <generator class="identity"/>
+        </id>
+
+        <!-- Properties -->
+        <property name="enseignant" column="idEnseignant" type="integer" not-null="true"/>
+        <property name="date" column="date" type="date" not-null="true"/>
+        <property name="matiere" column="idMatiere" type="integer" not-null="true"/>
+        <property name="jour" column="jour" type="string" length="10"/>
+        <property name="horaire" column="Horaire" type="string" length="15"/>
+
+        <!-- Foreign Keys -->
+        <many-to-one name="enseignant" class="com.cytech.projet_jakarta.model.Enseignant" column="idEnseignant" not-null="true"/>
+        <many-to-one name="matiere" class="com.cytech.projet_jakarta.model.Matiere" column="idMatiere" not-null="true"/>
+
+    </class>
+</hibernate-mapping>

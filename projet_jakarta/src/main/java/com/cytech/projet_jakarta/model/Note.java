@@ -8,7 +8,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "Notes")
+@Table(name = "Note")
 public class Note {
     @Id
     @Column(name = "idNotes", nullable = false)
