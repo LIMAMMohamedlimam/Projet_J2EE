@@ -1,0 +1,10 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="3.0">
+    <servlet>
+        <servlet-name>CoursServlet</servlet-name>
+        <servlet-class>com.test.MyHyber.Servlet.CoursServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CoursServlet</servlet-name>
+        <url-pattern>/CoursServlet</url-pattern>
+    </servlet-mapping>
+</web-app>

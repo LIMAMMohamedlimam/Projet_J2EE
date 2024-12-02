@@ -1,54 +1,56 @@
 package com.test.MyHyber.Entity;
 
-import java.util.Date;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "utilisateur")
+@Table(name = "utilisateur", schema = "gestionscolarite")
 public class Utilisateur {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", nullable = false)
+	private Integer id;
 
-    @Column(nullable = false, length = 50)
-    private String nom;
+	@Size(max = 50)
+	@NotNull
+	@Column(name = "nom", nullable = false, length = 50)
+	private String nom;
 
-    @Column(nullable = false, length = 50)
-    private String prenom;
+	@Size(max = 50)
+	@NotNull
+	@Column(name = "prenom", nullable = false, length = 50)
+	private String prenom;
 
-    @Temporal(TemporalType.DATE)
-    private Date dateDeNaissance;
+	@Column(name = "dateDeNaissance")
+	private LocalDate dateDeNaissance;
 
-    @Column(unique = true, nullable = false, length = 100)
-    private String email;
+	@Size(max = 100)
+	@NotNull
+	@Column(name = "email", nullable = false, length = 100)
+	private String email;
 
-    @Column(length = 15)
-    private String contact;
+	@Size(max = 15)
+	@Column(name = "contact", length = 15)
+	private String contact;
 
-    @Column(nullable = false)
-    private String motDePasse;
+	@Size(max = 255)
+	@NotNull
+	@Column(name = "password", nullable = false)
+	private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
+	@NotNull
+	@Lob
+	@Column(name = "role", nullable = false)
+	private String role;
 
-
-
-    public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -68,11 +70,11 @@ public class Utilisateur {
 		this.prenom = prenom;
 	}
 
-	public Date getDateDeNaissance() {
+	public LocalDate getDateDeNaissance() {
 		return dateDeNaissance;
 	}
 
-	public void setDateDeNaissance(Date dateDeNaissance) {
+	public void setDateDeNaissance(LocalDate dateDeNaissance) {
 		this.dateDeNaissance = dateDeNaissance;
 	}
 
@@ -92,23 +94,25 @@ public class Utilisateur {
 		this.contact = contact;
 	}
 
-	public String getMotDePasse() {
-		return motDePasse;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setMotDePasse(String motDePasse) {
-		this.motDePasse = motDePasse;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public Role getRole() {
+	public String getRole() {
 		return role;
 	}
 
-	public void setRole(Role role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 
-	public enum Role {
-        etudiant, enseignant, admin
-    }
+	@Override
+	public String toString() {
+		return this.id + " " +this.nom + " " + this.prenom + " " + this.dateDeNaissance  ;
+	}
+
 }

@@ -75,7 +75,7 @@ public class InscriptionDAO {
 
             Inscription inscription = new Inscription();
             inscription.setCours(cours);
-            inscription.setEtudiant(etudiant);
+            inscription.setIdEtudiant(etudiant);
 
             session.persist(inscription);
 

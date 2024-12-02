@@ -1,3 +1,4 @@
+
 package com.test.MyHyber.Servlet;
 
 import com.test.MyHyber.Entity.Cours;
@@ -7,15 +8,15 @@ import com.test.MyHyber.dao.CoursDAO;
 import com.test.MyHyber.dao.EtudiantDAO;
 import com.test.MyHyber.dao.InscriptionDAO;
 
-import java.io.IOException;
-import java.sql.Date;
-import java.util.List;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
 
 @WebServlet("/InscriptionServlet")
 public class InscriptionServlet extends HttpServlet {
@@ -49,9 +50,6 @@ public class InscriptionServlet extends HttpServlet {
                     validateIdParameter(request);
                     deleteInscription(request, response);
                     break;
-                case "enroll":
-                    enrollStudent(request, response);
-                    break;
                 default:
                     listInscriptions(request, response);
                     break;
@@ -68,7 +66,7 @@ public class InscriptionServlet extends HttpServlet {
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Etudiant> etudiants = etudiantDAO.getAllStudents();
+        List<Etudiant> etudiants = etudiantDAO.getAllStudentsList(); // Corrected method
         List<Cours> coursList = coursDAO.getAllCours();
         request.setAttribute("etudiants", etudiants);
         request.setAttribute("coursList", coursList);
@@ -82,7 +80,7 @@ public class InscriptionServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Inscription not found");
             return;
         }
-        List<Etudiant> etudiants = etudiantDAO.getAllStudents();
+        List<Etudiant> etudiants = etudiantDAO.getAllStudentsList(); // Corrected method
         List<Cours> coursList = coursDAO.getAllCours();
         request.setAttribute("inscription", existingInscription);
         request.setAttribute("etudiants", etudiants);
@@ -105,41 +103,35 @@ public class InscriptionServlet extends HttpServlet {
             String dateString = request.getParameter("date");
 
             if (etudiantId == null || etudiantId.isEmpty() || coursId == null || coursId.isEmpty() || dateString == null || dateString.isEmpty()) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "All fields (Etudiant, Cours, Date) are required.");
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "All fields are required.");
                 return;
             }
 
-            try {
-                Date dateInscription = Date.valueOf(dateString);
-                Etudiant etudiant = etudiantDAO.findStudentById(Integer.parseInt(etudiantId));
-                Cours cours = coursDAO.findCoursById(Integer.parseInt(coursId));
+            LocalDate dateInscription = LocalDate.parse(dateString);
+            Etudiant etudiant = etudiantDAO.findStudentById(Integer.parseInt(etudiantId));
+            Cours cours = coursDAO.findCoursById(Integer.parseInt(coursId));
 
-                if (etudiant == null || cours == null) {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Etudiant or Cours ID.");
-                    return;
-                }
-
-                Inscription inscription = (id == null || id.isEmpty()) ? new Inscription() : inscriptionDAO.findInscriptionById(Integer.parseInt(id));
-                if (inscription == null && id != null) {
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Inscription not found");
-                    return;
-                }
-
-                inscription.setEtudiant(etudiant);
-                inscription.setCours(cours);
-                inscription.setDateInscription(dateInscription);
-
-                if (id == null || id.isEmpty()) {
-                    inscriptionDAO.saveInscription(inscription);
-                } else {
-                    inscriptionDAO.updateInscription(inscription);
-                }
-                response.sendRedirect("InscriptionServlet");
-            } catch (IllegalArgumentException e) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid date format.");
+            if (etudiant == null || cours == null) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Etudiant or Cours ID.");
+                return;
             }
-        } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid ID format.");
+
+            Inscription inscription = (id == null || id.isEmpty()) ? new Inscription() : inscriptionDAO.findInscriptionById(Integer.parseInt(id));
+            if (inscription == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Inscription not found");
+                return;
+            }
+
+            inscription.setIdEtudiant(etudiant);
+            inscription.setCours(cours);
+            inscription.setDateInscription(dateInscription);
+
+            if (id == null || id.isEmpty()) {
+                inscriptionDAO.saveInscription(inscription);
+            } else {
+                inscriptionDAO.updateInscription(inscription);
+            }
+            response.sendRedirect("InscriptionServlet");
         } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing your request.");
         }
@@ -155,14 +147,5 @@ public class InscriptionServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             throw new ServletException("Invalid ID format", e);
         }
-    }
-
-    private void enrollStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String IdEtudiant = request.getParameter("IdEtudiant");
-        String idCours = request.getParameter("idCours");
-        if (IdEtudiant != null && idCours != null) {
-            inscriptionDAO.enrollStudentInCourse(Integer.parseInt(IdEtudiant), Integer.parseInt(idCours));
-        }
-        response.sendRedirect("InscriptionServlet");
     }
 }

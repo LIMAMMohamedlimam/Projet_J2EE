@@ -1,6 +1,6 @@
 package com.test.MyHyber.Servlet;
 
-import com.test.MyHyber.DAO.UtilisateurDAO;
+import com.test.MyHyber.dao.UtilisateurDAO;
 import com.test.MyHyber.Entity.Utilisateur;
 import com.test.MyHyber.Util.JsonParser;
 import com.test.MyHyber.Util.JwtUtil;
@@ -17,8 +17,8 @@ import org.json.simple.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@WebServlet(name = "LoginController", value = "/logincontroller")
-public class LoginController extends HttpServlet {
+@WebServlet(name = "logincontroller", value = "/logincontroller")
+public class loginController extends HttpServlet {
 
     private UtilisateurDAO utilisateurDAO;
 
@@ -59,7 +59,12 @@ public class LoginController extends HttpServlet {
             if (utilisateur != null) {
                 // User found: Respond with success
                 String jwt = JwtUtil.generateJwt(utilisateur);
-                System.out.println("JWT: " + jwt);
+                System.out.println("response" + response);
+                String role = utilisateur.getRole(); // Assurez-vous que "role" existe dans votre entité.
+                String page = getIndexPage(role);
+
+                // Rediriger vers la page appropriée
+                response.sendRedirect(page);
 
                 response.setContentType("application/json");
                 response.getWriter().write("{\"jwt\":\"" + jwt + "\"}");
@@ -85,11 +90,11 @@ public class LoginController extends HttpServlet {
     private String getIndexPage(String role) {
         switch (role) {
             case "admin":
-                return "admin_dashboard.html";
+                return "Admin/admin-dashboard.jsp";
             case "student":
-                return "student_dashboard.html";
+                return "student-dashboard.jsp";
             case "teacher":
-                return "teacher_dashboard.html";
+                return "teacher-dashboard.jsp";
             default:
                 return "loginpage.html";
         }

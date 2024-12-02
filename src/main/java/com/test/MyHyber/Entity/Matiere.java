@@ -5,12 +5,12 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "matiere")
 public class Matiere {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idMatiere;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int idMatiere;
 
-    @Column(nullable = false, length = 50)
-    private String nom;
+	@Column(nullable = false, length = 50)
+	private String nom;
 
 	public int getIdMatiere() {
 		return idMatiere;
@@ -27,5 +27,4 @@ public class Matiere {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-
 }

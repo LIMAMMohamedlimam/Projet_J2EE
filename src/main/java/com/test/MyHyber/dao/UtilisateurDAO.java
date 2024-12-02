@@ -1,8 +1,7 @@
-package com.test.MyHyber.DAO;
+package com.test.MyHyber.dao;
 
 import com.test.MyHyber.Entity.Utilisateur;
 import com.test.MyHyber.Util.HibernateUtil;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -10,84 +9,112 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class UtilisateurDAO {
+public class UtilisateurDAO implements DAOInterface <Utilisateur> {
+    Session session = null ;
+    Transaction tx = null ;
 
-    public int save(Utilisateur utilisateur) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
+
+
+    @Override
+    public int saveData(Utilisateur data)  {
+        session = HibernateUtil.getSession();
         try {
             tx = session.beginTransaction();
-            session.persist(utilisateur);
+            session.persist(data);
             tx.commit();
-            return 1; // Success
-        } catch (HibernateException e) {
-            if (tx != null) tx.rollback();
+        }catch (HibernateException e){
             e.printStackTrace();
-            return -1; // Failure
-        } finally {
+            return -1 ;
+        }finally {
             session.close();
         }
+        return 0;
     }
 
-    public int update(Utilisateur utilisateur) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
+    @Override
+    public int updateData(Utilisateur data) {
+        session = HibernateUtil.getSession();
         try {
             tx = session.beginTransaction();
-            session.merge(utilisateur);
+            session.merge(data);
             tx.commit();
-            return 1; // Success
-        } catch (HibernateException e) {
-            if (tx != null) tx.rollback();
+        }catch (HibernateException e){
             e.printStackTrace();
-            return -1; // Failure
-        } finally {
+            return -1 ;
+        }finally {
             session.close();
         }
+        return 0;
+    }
+
+    @Override
+    public int removeData(Utilisateur data) {
+        return 0;
+    }
+
+    @Override
+    public List<Utilisateur> getAllData() {
+        return null ;
     }
 
     public Utilisateur findByEmailAndPassword(String email, String password) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        try {
-            Query<Utilisateur> query = session.createQuery("FROM Utilisateur WHERE email = :email AND password = :password", Utilisateur.class);
+        Utilisateur utilisateur = null;
+
+        // Open Hibernate session
+        try (Session session = HibernateUtil.getSession()) {
+            // Create HQL query to find user by email and password
+            String hql = "FROM Utilisateur WHERE email = :email AND password = :password";
+            Query<Utilisateur> query = session.createQuery(hql, Utilisateur.class);
             query.setParameter("email", email);
             query.setParameter("password", password);
+
+            // Get single result
+            utilisateur = query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return utilisateur; // Returns null if no user is found
+    }
+
+    public Utilisateur findByEmail(String email) {
+        Utilisateur utilisateur = null;
+
+        // Open Hibernate session
+        try (Session session = HibernateUtil.getSession()) {
+            // Create HQL query to find user by email and password
+            String hql = "FROM Utilisateur WHERE email = :email";
+            Query<Utilisateur> query = session.createQuery(hql, Utilisateur.class);
+            query.setParameter("email", email);
+
+
+            // Get single result
+            utilisateur = query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return utilisateur; // Returns null if no user is found
+    }
+
+
+    public Utilisateur findByNameAndPronoun(String name, String pronoun) {
+        // Open Hibernate session
+        try (Session session = HibernateUtil.getSession()) {
+            // Create HQL query to find user by email and password
+            String hql = "FROM Utilisateur WHERE nom = :nom AND prenom = :prenom";
+            Query<Utilisateur> query = session.createQuery(hql, Utilisateur.class);
+            query.setParameter("nom", name);
+            query.setParameter("prenom", pronoun);
+
+            // Get single result
             return query.uniqueResult();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            return null; // No result
-        } finally {
-            session.close();
         }
+
+        return null;
     }
 
-    public List<Utilisateur> findAll() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        try {
-            Query<Utilisateur> query = session.createQuery("FROM Utilisateur", Utilisateur.class);
-            return query.getResultList();
-        } catch (HibernateException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            session.close();
-        }
-    }
 
-    public int delete(Utilisateur utilisateur) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            session.remove(utilisateur);
-            tx.commit();
-            return 1; // Success
-        } catch (HibernateException e) {
-            if (tx != null) tx.rollback();
-            e.printStackTrace();
-            return -1; // Failure
-        } finally {
-            session.close();
-        }
-    }
 }

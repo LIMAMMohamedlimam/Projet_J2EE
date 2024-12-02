@@ -1,7 +1,7 @@
 package com.test.MyHyber.dao;
 
+import com.test.MyHyber.Entity.Note;
 import com.test.MyHyber.Util.HibernateUtil;
-import com.test.MyHyber.Entity.Notes;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -9,11 +9,11 @@ import java.util.List;
 
 public class NotesDAO {
 
-    public void saveNotes(Notes notes) {
+    public void saveNotes(Note note) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.persist(notes);
+            session.persist(note); // Save the Note entity
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
@@ -21,43 +21,56 @@ public class NotesDAO {
         }
     }
 
-    public Notes findNotesById(int id) {
+    public Note findNotesById(int id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.get(Notes.class, id);
+            return session.get(Note.class, id); // Fetch Note by ID
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
-    public List<Notes> getAllNotes() {
+    public List<Note> getAllNotes() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from Notes", Notes.class).list();
+            return session.createQuery("FROM Note", Note.class).list(); // Correct HQL query
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
-    public List<Notes> getNotesByCourse(int idCours) {
+    public List<Note> getNotesByCourse(int idCours) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            String hql = "from Notes where cours.idCours = :idCours";
-            return session.createQuery(hql, Notes.class)
+            String hql = "SELECT n FROM Note n WHERE n.idCours = :idCours";
+            return session.createQuery(hql, Note.class)
                     .setParameter("idCours", idCours)
                     .list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
-    public boolean isTeacherAuthorizedForCourse(int EnseignantId, int idCours) {
+
+    public boolean isTeacherAuthorizedForCourse(int enseignantId, int idCours) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            String hql = "SELECT COUNT(c) FROM Cours c WHERE c.idCours = :idCours AND c.idEnseignant = :EnseignantId";
+            String hql = "SELECT COUNT(c) FROM Cours c WHERE c.idCours = :idCours AND c.idEnseignant = :enseignantId";
             Long count = session.createQuery(hql, Long.class)
                     .setParameter("idCours", idCours)
-                    .setParameter("EnseignantId", EnseignantId)
+                    .setParameter("enseignantId", enseignantId)
                     .uniqueResult();
             return count != null && count > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
-    public void updateNotes(Notes notes) {
+    public void updateNotes(Note note) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.merge(notes);
+            session.merge(note); // Update the Note entity
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
@@ -69,9 +82,9 @@ public class NotesDAO {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            Notes notes = session.get(Notes.class, id);
-            if (notes != null) {
-                session.remove(notes);
+            Note note = session.get(Note.class, id);
+            if (note != null) {
+                session.remove(note); // Delete the Note entity
             }
             transaction.commit();
         } catch (Exception e) {

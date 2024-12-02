@@ -56,13 +56,13 @@
 
 <div class="dashboard-container">
     <div class="card">
-        <a href="EtudiantServlet?action=list">
+        <a href="gestionEtudiant.html">
             <img src="${pageContext.request.contextPath}/icons/student.jpg" alt="Gestion des étudiants">
             <h3>Gestion des étudiants</h3>
         </a>
     </div>
     <div class="card">
-        <a href="EnseignantServlet?action=list">
+        <a href="gestionEnseignants.html">
             <img src="${pageContext.request.contextPath}/icons/teacher.jpeg" alt="Gestion des enseignants">
             <h3>Gestion des enseignants</h3>
         </a>
@@ -74,9 +74,15 @@
         </a>
     </div>
     <div class="card">
-        <a href="EtudiantServlet?action=filter">
+        <a href="listEtudiant.html">
             <img src="${pageContext.request.contextPath}/icons/filter.png" alt="Afficher la liste des étudiants">
             <h3>Liste des étudiants</h3>
+        </a>
+    </div>
+    <div class="card">
+        <a href="listEnseignants.html">
+            <img src="${pageContext.request.contextPath}/icons/teacher.jpeg" alt="Gestion des enseignants">
+            <h3>Liste des enseignants</h3>
         </a>
     </div>
     <div class="card">

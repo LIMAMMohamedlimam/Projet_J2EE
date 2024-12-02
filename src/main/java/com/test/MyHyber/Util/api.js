@@ -1,4 +1,3 @@
-// Retrieves JWT token from local storage
 function getAuthenticatedHeaders() {
     const token = localStorage.getItem('jwtToken');
     return {

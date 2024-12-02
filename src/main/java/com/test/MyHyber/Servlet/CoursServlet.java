@@ -2,6 +2,8 @@ package com.test.MyHyber.Servlet;
 
 import com.test.MyHyber.Entity.Cours;
 import com.test.MyHyber.Entity.Matiere;
+import com.test.MyHyber.dao.EtudiantDAO;
+import com.test.MyHyber.dao.EnseignantDAO;
 import com.test.MyHyber.dao.CoursDAO;
 import com.test.MyHyber.dao.MatiereDAO;
 
@@ -19,10 +21,15 @@ import jakarta.servlet.http.HttpServletResponse;
 public class CoursServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private CoursDAO coursDAO;
+    private EnseignantDAO enseignantDAO;
+    private EtudiantDAO etudiantDAO;
 
     @Override
     public void init() {
-        coursDAO = new CoursDAO();
+
+        enseignantDAO = new EnseignantDAO();
+        etudiantDAO = new EtudiantDAO();
+        coursDAO = new CoursDAO(); // Assuming this is already initialized
     }
 
     @Override
@@ -50,6 +57,9 @@ public class CoursServlet extends HttpServlet {
                 case "assign":
                     assignTeacherAndStudentToCourse(request, response);
                     break;
+                case "listForAssignment":
+                    listCoursForAssignment(request, response);
+                    break;
                 default:
                     listCours(request, response);
                     break;
@@ -62,23 +72,33 @@ public class CoursServlet extends HttpServlet {
     private void listCours(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Cours> coursList = coursDAO.getAllCours();
         request.setAttribute("coursList", coursList);
-        request.getRequestDispatcher("cours-list.jsp").forward(request, response);
+        request.getRequestDispatcher("Admin/cours-list.jsp").forward(request, response);
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("cours-form.jsp").forward(request, response);
+        request.getRequestDispatcher("Admin/cours-form.jsp").forward(request, response);
     }
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        Cours existingCours = coursDAO.findCoursById(id);
-        if (existingCours == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Cours not found");
-            return;
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            Cours existingCours = coursDAO.findCoursById(id);
+
+            if (existingCours == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Cours not found");
+                return;
+            }
+
+            request.setAttribute("cours", existingCours); // Set the existing course for the JSP
+            request.getRequestDispatcher("Admin/cours-form.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid ID format");
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An unexpected error occurred");
+            e.printStackTrace();
         }
-        request.setAttribute("cours", existingCours);
-        request.getRequestDispatcher("cours-form.jsp").forward(request, response);
     }
+
 
     private void deleteCours(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
@@ -91,6 +111,12 @@ public class CoursServlet extends HttpServlet {
         List<Cours> coursList = coursDAO.searchCoursByName(keyword);
         request.setAttribute("coursList", coursList);
         request.getRequestDispatcher("cours-list.jsp").forward(request, response);
+    }
+
+    private void listCoursForAssignment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Cours> coursList = coursDAO.getAllCoursForAssignment(); // Récupère les cours avec les relations nécessaires
+        request.setAttribute("coursList", coursList);
+        request.getRequestDispatcher("Admin/cours-assign.jsp").forward(request, response); // Utilisez une JSP dédiée si nécessaire
     }
 
     @Override
@@ -160,13 +186,35 @@ public class CoursServlet extends HttpServlet {
     }
     private void assignTeacherAndStudentToCourse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idEnseignant = request.getParameter("idEnseignant");
-        String IdEtudiant = request.getParameter("IdEtudiant");
+        String[] idEtudiants = request.getParameterValues("idEtudiant");
         String idCours = request.getParameter("idCours");
-        if (idEnseignant != null) {
-            coursDAO.assignTeacherToCourse(Integer.parseInt(idEnseignant), Integer.parseInt(idCours));
+
+        try {
+            if (idEnseignant != null && !idEnseignant.isEmpty()) {
+                coursDAO.assignTeacherToCourse(Integer.parseInt(idEnseignant), Integer.parseInt(idCours));
+            }
+
+            if (idEtudiants != null) {
+                for (String idEtudiant : idEtudiants) {
+                    if (idEtudiant != null && !idEtudiant.isEmpty()) {
+                        coursDAO.assignStudentToCourse(Integer.parseInt(idEtudiant), Integer.parseInt(idCours));
+                    }
+                }
+            }
+
+            // Use the DAO instances to fetch data
+            request.setAttribute("teachers", enseignantDAO.getAllTeachersList());
+            request.setAttribute("students", etudiantDAO.getAllStudentsList());
+            request.setAttribute("cours", coursDAO.findCoursById(Integer.parseInt(idCours)));
+
+            request.getRequestDispatcher("Admin/cours-assign.jsp").forward(request, response);
+
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid ID format.");
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing your request.");
         }
-        if (IdEtudiant != null) {
-            coursDAO.assignStudentToCourse(Integer.parseInt(IdEtudiant), Integer.parseInt(idCours));
-        }
-        response.sendRedirect("CoursServlet");
-    }}
+    }
+
+}
+

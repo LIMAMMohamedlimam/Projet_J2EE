@@ -1,9 +1,12 @@
 package com.test.MyHyber.Servlet;
 
+import com.google.gson.Gson;
 import com.test.MyHyber.Entity.*;
 import com.test.MyHyber.dao.EtudiantDAO;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
@@ -12,10 +15,21 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+
+import com.test.MyHyber.dao.UtilisateurDAO;
+import com.test.MyHyber.Entity.Etudiant;
+import com.test.MyHyber.Entity.Utilisateur;
+import com.test.MyHyber.Util.UserData;
+import org.json.JSONObject;
+
+import static com.test.MyHyber.Util.JsonParser.getUserDataFromRequest;
+
+
 @WebServlet("/EtudiantServlet")
 public class EtudiantServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private EtudiantDAO etudiantDAO;
+    private JSONObject responseMessage = new JSONObject();
 
     @Override
     public void init() {
@@ -24,60 +38,53 @@ public class EtudiantServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //UserData userData = getUserDataFromRequest(request);
+        //response.setContentType("application/json");
+        //response.getWriter().write("getAction");
         String action = request.getParameter("action");
+        System.out.println(action);
         if (action == null) action = "list";
 
-        try {
-            switch (action) {
-                case "new":
-                    showNewForm(request, response);
-                    break;
-                case "edit":
-                    validateIdParameter(request);
-                    showEditForm(request, response);
-                    break;
-                case "delete":
-                    validateIdParameter(request);
-                    deleteEtudiant(request, response);
-                    break;
-                case "search":
-                    validateKeywordParameter(request);
-                    searchEtudiants(request, response);
-                    break;
-                default:
-                    listEtudiants(request, response);
-                    break;
-            }
-        } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+        switch (action) {
+            case "new":
+                showNewForm(request, response);
+                break;
+            case "edit":
+                showEditForm(request, response);
+                break;
+            case "delete":
+                deleteEtudiant(request, response);
+                break;
+            case "search":
+                searchEtudiants(request, response);
+                break;
+            default:
+                //System.out.println("hello");
+                listEtudiants(request, response);
+                break;
         }
     }
 
-    public void listEtudiants(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Fetch students from the DAO
-        List<Etudiant> etudiants = etudiantDAO.getAllStudents();
-
-        // Log fetched students to debug
-        System.out.println("Fetched students: " + etudiants);
-
-        // Set the "etudiants" attribute for the JSP
-        request.setAttribute("etudiants", etudiants);
-
-        // Forward the request to the JSP
-        request.getRequestDispatcher("/Admin/etudiant-list.jsp").forward(request, response);
+    private void listEtudiants(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //List<Etudiant> etudiants = etudiantDAO.getAllStudents();
+        //for (Etudiant etudiant : etudiants) {}
+        //request.setAttribute("etudiants", etudiants);
+        //request.getRequestDispatcher("etudiant-list.jsp").forward(request, response);
+        response.setContentType("application/json");
+        //System.out.println("liste etudiant "+ etudiantDAO.getAllStudents());
+        response.getWriter().write(etudiantDAO.getAllStudents());
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("etudiant-form.jsp").forward(request, response);
+        etudiantDAO = new EtudiantDAO();
+        List<Etudiant> etudinatlist = etudiantDAO.getAllStudentsList() ;
     }
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         Etudiant existingEtudiant = etudiantDAO.findStudentById(id);
-        if (existingEtudiant == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Etudiant not found");
-            return;
-        }
         request.setAttribute("etudiant", existingEtudiant);
         request.getRequestDispatcher("etudiant-form.jsp").forward(request, response);
     }
@@ -97,69 +104,96 @@ public class EtudiantServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            String id = request.getParameter("id");
-            String nom = request.getParameter("nom");
-            String prenom = request.getParameter("prenom");
-            String dateDeNaissance = request.getParameter("dateDeNaissance");
-            String email = request.getParameter("email");
-            String contact = request.getParameter("contact");
-            String role = request.getParameter("role");
+        UserData userData ;
+        UtilisateurDAO utiDao = new UtilisateurDAO();
+        userData = getUserDataFromRequest(request);
+        System.out.println(userData.toString());
+        String nom = userData.getName();
+        String email = userData.getEmail() ;
+        String password = userData.getPassword() ;
+        String prenom = userData.getSurname();
+        String dob = userData.getDob();
+        System.out.println(dob);
+        String contact =  userData.getContact() ;
+        Etudiant newEtudiant ;
 
-            if (nom == null || prenom == null || email == null || role == null ||
-                    nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || role.isEmpty()) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "All fields are required.");
-                return;
-            }
+        //List <Etudiant> etudiants = etudiantDAO.findByNameAndPronoun(nom , prenom) ;
+        Utilisateur utilisateurEtudiant = utiDao.findByNameAndPronoun(prenom, nom);
+        if(utilisateurEtudiant != null)
+            System.out.println("utilisateur: "+utilisateurEtudiant);
+        if(utilisateurEtudiant != null) {
+            newEtudiant = new Etudiant();
+            newEtudiant.setEtudUtiFk(utilisateurEtudiant.getId());
+            newEtudiant.setNom(userData.getName());
+            newEtudiant.setPrenom(userData.getSurname());
+            newEtudiant.setDateDeNaissance(utilisateurEtudiant.getDateDeNaissance());
+            etudiantDAO.updateStudent(newEtudiant);
+            response.setStatus(HttpServletResponse.SC_OK);
+            responseMessage.put("message","Etudiant: "+newEtudiant.getContact() +" "+newEtudiant.getPrenom() + " est mis à jour." ) ;
+            response.setContentType("application/json");
+            response.getWriter().write(responseMessage.toString());
+        }else{
+            LocalDate localDate = LocalDate.parse(dob);
+            System.out.println(localDate);
+            newEtudiant = new Etudiant();
+            utilisateurEtudiant = new Utilisateur();
+            utilisateurEtudiant.setNom(nom);
+            utilisateurEtudiant.setPrenom(prenom);
+            utilisateurEtudiant.setEmail(email);
+            utilisateurEtudiant.setPassword(password);
+            utilisateurEtudiant.setContact(contact);
+            utilisateurEtudiant.setRole("etudiant");
+            utilisateurEtudiant.setDateDeNaissance(localDate);
+            utiDao.saveData(utilisateurEtudiant);
+            newEtudiant.setPrenom(prenom);
+            newEtudiant.setNom(nom);
+            newEtudiant.setContact(contact) ;
+            newEtudiant.setDateDeNaissance(localDate);
+            System.out.println(localDate);
+            etudiantDAO.saveStudentData(utilisateurEtudiant);
 
-            Etudiant etudiant;
-            if (id == null || id.isEmpty()) {
-                etudiant = new Etudiant(); // New student
-                etudiant.setUtilisateur(new Utilisateur()); // Link a new Utilisateur
-            } else {
-                etudiant = etudiantDAO.findStudentById(Integer.parseInt(id)); // Existing student
-                if (etudiant == null) {
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Etudiant not found");
-                    return;
-                }
-            }
+            response.setStatus(HttpServletResponse.SC_OK);
+            responseMessage.put("message","Etudiant: "+newEtudiant.getContact() +" "+newEtudiant.getPrenom() + " est bien ajouter." ) ;
+            response.setContentType("application/json");
+            response.getWriter().write(responseMessage.toString());
 
-            Utilisateur utilisateur = etudiant.getUtilisateur();
-            utilisateur.setNom(nom);
-            utilisateur.setPrenom(prenom);
-            utilisateur.setDateDeNaissance(dateDeNaissance.isEmpty() ? null : java.sql.Date.valueOf(dateDeNaissance));
-            utilisateur.setEmail(email);
-            utilisateur.setContact(contact);
-            utilisateur.setRole(Utilisateur.Role.valueOf(role.toUpperCase()));
-
-            if (id == null || id.isEmpty()) {
-                etudiantDAO.saveStudent(etudiant);
-            } else {
-                etudiantDAO.updateStudent(etudiant);
-            }
-
-            response.sendRedirect("EtudiantServlet");
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error processing request.");
         }
+
+
     }
 
-    private void validateIdParameter(HttpServletRequest request) throws ServletException {
-        String id = request.getParameter("id");
-        if (id == null || id.isEmpty()) {
-            throw new ServletException("ID parameter is required");
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        // Parse the JSON body
+        StringBuilder sb = new StringBuilder();
+        try (BufferedReader reader = request.getReader()) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
         }
-        try {
-            Integer.parseInt(id);
-        } catch (NumberFormatException e) {
-            throw new ServletException("Invalid ID format", e);
-        }
+
+        String requestBody = sb.toString();
+        System.out.println("Request Body: " + requestBody);
+
+        // Convert JSON string to an object (e.g., using Gson or Jackson)
+        Gson gson = new Gson();
+        UserData student = gson.fromJson(requestBody, UserData.class);
+        String email = student.getEmail();
+        etudiantDAO.deleteStudent(email);
+
+        // Now you have the student data
+        System.out.println("Name: " + student.getName());
+        System.out.println("Email: " + student.getEmail());
+
+        // Respond to the client
+        response.setStatus(HttpServletResponse.SC_OK);
+        responseMessage.put("message" ,"Data deleted for: " + student.getName() + " with email " + student.getEmail() );
+        response.setContentType("application/json");
+        response.getWriter().write(responseMessage.toString());
     }
 
-    private void validateKeywordParameter(HttpServletRequest request) throws ServletException {
-        String keyword = request.getParameter("keyword");
-        if (keyword == null || keyword.isEmpty()) {
-            throw new ServletException("Keyword parameter is required for search");
-        }
-    }}
+}
+
+

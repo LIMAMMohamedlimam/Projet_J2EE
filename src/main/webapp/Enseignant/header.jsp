@@ -8,7 +8,7 @@
 <header>
     <nav class="nav-bar">
         <ul>
-            <li><a href="${pageContext.request.contextPath}/teacher-dashboard.jsp">Dashboard</a></li>
+            <li><a href="${pageContext.request.contextPath}Enseignant-dashboard.jsp">Dashboard</a></li>
             <li><a href="CoursServlet?action=myCourses">Mes Cours</a></li>
             <li><a href="NotesServlet?action=list">Saisir des Notes</a></li>
             <li><a href="ResultatServlet?action=resultsByCourse">Résultats des Cours</a></li>

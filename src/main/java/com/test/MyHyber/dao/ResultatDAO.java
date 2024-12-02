@@ -34,7 +34,7 @@ public class ResultatDAO {
     
     public Double calculateAverageByStudent(int IdEtudiant) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            String hql = "SELECT AVG(n.valeur) FROM Notes n WHERE n.etudiant.id = :IdEtudiant";
+            String hql = "SELECT AVG(n.valeur) FROM Note n WHERE n.idEtudiant = :IdEtudiant";
             return session.createQuery(hql, Double.class) 
                           .setParameter("IdEtudiant", IdEtudiant)
                           .uniqueResult();

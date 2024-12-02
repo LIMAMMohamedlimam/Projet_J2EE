@@ -5,84 +5,101 @@
   </component>
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="project_jee:war exploded" />
+      <artifact name="project_jee:war" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbd7bb68-a71f-4365-98e3-321f06af38c8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/LoginController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/JsonParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/JwtFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/JwtUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/Singleton.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/UserCredentials.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/UserData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/api.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/UtilisateurDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webapp/Admin/admin-dashboard.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webapp/Admin/etudiant-list.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webapp/Admin/header.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webapp/Enseignant/Enseignant-dashboard.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webapp/Enseignant/header.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webapp/css/styles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webapp/icons/courses.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webapp/icons/filter.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webapp/icons/results.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webapp/icons/schedule.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webapp/icons/student.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webapp/icons/teacher.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webapp/Admin/admin-dashboard.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webapp/Admin/etudiant-list.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webapp/Admin/header.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webapp/Enseignant/Enseignant-dashboard.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webapp/Enseignant/header.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webapp/css/styles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webapp/icons/courses.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webapp/icons/filter.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webapp/icons/results.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webapp/icons/schedule.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webapp/icons/student.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webapp/icons/teacher.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/583ca960-15e5-4df6-992b-fcad39f7e41c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/583ca960-15e5-4df6-992b-fcad39f7e41c.xml" afterDir="false" />
+    <list default="true" id="fbd7bb68-a71f-4365-98e3-321f06af38c8" name="Changes" comment="Second commit">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/project_jee_war_exploded2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.smarttomcat/project_jee/conf/catalina.policy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.smarttomcat/project_jee/conf/catalina.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.smarttomcat/project_jee/conf/context.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.smarttomcat/project_jee/conf/jaspic-providers.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.smarttomcat/project_jee/conf/jaspic-providers.xsd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.smarttomcat/project_jee/conf/logging.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.smarttomcat/project_jee/conf/server.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.smarttomcat/project_jee/conf/tomcat-users.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.smarttomcat/project_jee/conf/tomcat-users.xsd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.smarttomcat/project_jee/conf/web.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Note.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/DAOInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/Enseignant.hbm.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/Etudiant.hbm.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/Utilisateur.hbm.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/utility/HibernateUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/utility/JsonParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/utility/JwtFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/utility/JwtUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/utility/Singleton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/utility/UserCredentials.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/utility/UserData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/web/web.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/Admin/cours-assign.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/Admin/cours-form.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/Admin/cours-list.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/Admin/gestionEnseignants.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/Admin/gestionEtudiant.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/Admin/listEnseignants.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/Admin/listEtudiant.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/api.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/hello.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/icons/CY_Tech.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/login.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/loginpage.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/loginpage.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/9ccf8579-62a4-444a-945d-1c81c2110d46.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/9ccf8579-62a4-444a-945d-1c81c2110d46.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/webContexts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Admin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Cours.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Cours.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Enseignant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Enseignant.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Etudiant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Etudiant.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Inscription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Inscription.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Matiere.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Matiere.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Notes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Notes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Notes.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Resultat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Resultat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Utilisateur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Entity/Utilisateur.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/HibernateTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/HibernateTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/AdminDashboardServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/AdminDashboardServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/AdminServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/AdminServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/CoursServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/CoursServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/EnseignantDashboardServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/EnseignantDashboardServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/EnseignantServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/EnseignantServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/EtudiantServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/EtudiantServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/InscriptionServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/InscriptionServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/MatiereServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/MatiereServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/loginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/NotesServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/NotesServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/ResultatServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Servlet/ResultatServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/HibernateUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/HibernateUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/AdminDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/AdminDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/JsonParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/JsonParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/JwtUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/UserData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/UserData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/Util/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/CoursDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/CoursDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/EnseignantDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/EnseignantDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/EtudiantDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/EtudiantDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/InscriptionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/InscriptionDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/MatiereDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/MatiereDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/NotesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/NotesDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/ResultatDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/ResultatDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/UtilisateurDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/MyHyber/dao/UtilisateurDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/Admin/etudiant-list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Admin/etudiant-list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/Admin/header.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Admin/header.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/Admin/admin-dashboard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Admin/admin-dashboard.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/Enseignant/Enseignant-dashboard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Enseignant/Enseignant-dashboard.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/Enseignant/header.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Enseignant/header.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/Admin/admin-dashboard.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/Admin/etudiant-list.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/Admin/header.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/Enseignant/Enseignant-dashboard.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/Enseignant/header.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/css/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/icons/courses.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/icons/filter.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/icons/results.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/icons/schedule.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/icons/student.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/icons/teacher.jpeg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +117,20 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;SEMGOODD&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/LIMAMMohamedLimam/Projet_J2EE.git&quot;,
+    &quot;accountId&quot;: &quot;8c298072-66ac-46db-acc1-f22e5f3b69b7&quot;
+  }
+}</component>
   <component name="JspContextManager">
     <jsp-to-context jsp-file="file://$PROJECT_DIR$/src/main/webapp/Admin/header.jsp" context-file="file://$PROJECT_DIR$/src/main/webapp/Admin/admin-dashboard.jsp" />
   </component>
@@ -134,9 +164,14 @@
     "Application.org.example.HibernateTest.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
     "JUnit.All in project_jee.executor": "Run",
+    "JavaScript Debug.Enseignant-dashboard.jsp.executor": "Run",
     "JavaScript Debug.admin-dashboard.jsp.executor": "Run",
     "JavaScript Debug.index.jsp.executor": "Run",
+    "JavaScript Debug.loginpage.html.executor": "Run",
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Maven.project_jee [clean].executor": "Run",
+    "Maven.project_jee [compile].executor": "Run",
+    "Maven.project_jee [package].executor": "Run",
     "Maven.untitled1 [org.apache.maven.plugins:maven-install-plugin:3.1.1:help].executor": "Run",
     "Maven.untitled1 [org.apache.maven.plugins:maven-install-plugin:3.1.1:install-file].executor": "Run",
     "Maven.untitled1 [org.apache.maven.plugins:maven-install-plugin:3.1.1:install].executor": "Run",
@@ -145,6 +180,9 @@
     "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Smart Tomcat.Tomcat: project_jee.executor": "Run",
+    "Smart Tomcat.Unnamed.executor": "Run",
+    "Tomcat Server.Enseignant-dashboard.jsp.executor": "Run",
     "Tomcat Server.Tomcat 10.1.29.executor": "Run",
     "Tomcat Server.admin-dashboard.jsp (1).executor": "Run",
     "Tomcat Server.admin-dashboard.jsp.executor": "Run",
@@ -153,35 +191,41 @@
     "git-widget-placeholder": "full-backend",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/HP/IdeaProjects/project_jee/src/main/java/com/test/MyHyber/Util",
+    "last_opened_file_path": "C:/Users/HP/IdeaProjects/project_jee/src/main/web",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.51724136",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "File.Encoding",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\HP\IdeaProjects\project_jee\src\main\java\com\test\MyHyber\Util" />
-      <recent name="C:\Users\HP\IdeaProjects\project_jee\src\webapp" />
-      <recent name="C:\Users\HP\IdeaProjects\project_jee\webapp" />
-      <recent name="C:\Users\HP\IdeaProjects\project_jee\src\test\java\com\test\MyHyber" />
-      <recent name="C:\Users\HP\IdeaProjects\project_jee\lib\mysql" />
+      <recent name="C:\Users\HP\IdeaProjects\project_jee\src\main\web" />
+      <recent name="C:\Users\HP\IdeaProjects\project_jee\src\main\webapp\Admin" />
+      <recent name="C:\Users\HP\IdeaProjects\project_jee\src\main\resources\META-INF" />
+      <recent name="C:\Users\HP\IdeaProjects\project_jee\src\main\webapp" />
+      <recent name="C:\Users\HP\IdeaProjects\project_jee\src\main\webapp\icons" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\HP\IdeaProjects\project_jee\src\main\resources" />
+      <recent name="C:\Users\HP\IdeaProjects\project_jee\src\main\resources\META-INF" />
+      <recent name="C:\Users\HP\IdeaProjects\project_jee\src\main\java\com\test\MyHyber\Servlet" />
       <recent name="C:\Users\HP\IdeaProjects\project_jee\src\main\java\com\test" />
       <recent name="C:\Users\HP\IdeaProjects\project_jee\src\main\java" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.test.MyHyber" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.test.MyHyber.Entity" />
     </key>
   </component>
   <component name="RunManager" selected="Tomcat Server.Tomcat 10.1.29">
@@ -198,35 +242,64 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="org.example.HibernateTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.HibernateTest" />
-      <module name="project_jee" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.example.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="admin-dashboard.jsp" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8080/project_jee_war_exploded/Admin/admin-dashboard.jsp">
+    <configuration name="Enseignant-dashboard.jsp" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8083/project_jee/Enseignant/Enseignant-dashboard.jsp">
       <method v="2" />
     </configuration>
-    <configuration name="Tomcat 10.1.29" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.29" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
-      <option name="UPDATING_POLICY" value="restart-server" />
+    <configuration name="admin-dashboard.jsp" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8083/project_jee/Admin/admin-dashboard.jsp">
+      <method v="2" />
+    </configuration>
+    <configuration name="Enseignant-dashboard.jsp" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" temporary="true" APPLICATION_SERVER_NAME="Tomcat 10.1.29" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/Enseignant/Enseignant-dashboard.jsp" />
       <deployment>
-        <artifact name="project_jee:war exploded">
+        <artifact name="project_jee:war">
           <settings>
-            <option name="CONTEXT_PATH" value="/project_jee_war_exploded" />
+            <option name="CONTEXT_PATH" value="/project_jee_war" />
           </settings>
         </artifact>
       </deployment>
       <server-settings>
-        <option name="BASE_DIRECTORY_NAME" value="afa5a097-49ad-4861-8476-401b62ea8b33" />
-        <option name="HTTP_PORT" value="8081" />
-        <option name="JNDI_PORT" value="1100" />
+        <option name="BASE_DIRECTORY_NAME" value="e9f83bb9-3422-4286-86ee-6e57c08289f6" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="project_jee:war" />
+        </option>
+      </method>
+    </configuration>
+    <configuration name="Tomcat 10.1.29" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.29" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="17" nameIsGenerated="true">
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="project_jee:war exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/project_jee" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="6237f534-e077-4135-96b4-bac808a3b8cb" />
+        <option name="HTTP_PORT" value="8083" />
+        <option name="JNDI_PORT" value="1106" />
       </server-settings>
       <predefined_log_file enabled="true" id="Tomcat" />
       <predefined_log_file enabled="true" id="Tomcat Catalina" />
@@ -234,7 +307,7 @@
       <predefined_log_file id="Tomcat Host Manager" />
       <predefined_log_file id="Tomcat Localhost Access" />
       <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="64854" />
+        <option name="DEBUG_PORT" value="56004" />
       </RunnerSettings>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
         <option name="USE_ENV_VARIABLES" value="true" />
@@ -303,99 +376,70 @@
         </option>
       </method>
     </configuration>
-    <configuration name="admin-dashboard.jsp" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" temporary="true" APPLICATION_SERVER_NAME="Tomcat 10.1.29" ALTERNATIVE_JRE_ENABLED="false">
-      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/Admin/admin-dashboard.jsp" />
-      <deployment>
-        <artifact name="project_jee:war exploded">
-          <settings>
-            <option name="CONTEXT_PATH" value="/project_jee_war_exploded" />
-          </settings>
-        </artifact>
-      </deployment>
-      <server-settings>
-        <option name="BASE_DIRECTORY_NAME" value="feeadb9b-c912-4072-96a7-ca57e3e00b19" />
-      </server-settings>
-      <predefined_log_file enabled="true" id="Tomcat" />
-      <predefined_log_file enabled="true" id="Tomcat Catalina" />
-      <predefined_log_file id="Tomcat Manager" />
-      <predefined_log_file id="Tomcat Host Manager" />
-      <predefined_log_file id="Tomcat Localhost Access" />
-      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
-        <option name="USE_ENV_VARIABLES" value="true" />
-        <STARTUP>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </STARTUP>
-        <SHUTDOWN>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </SHUTDOWN>
-      </ConfigurationWrapper>
+    <configuration name="Tomcat: project_jee" type="com.poratu.idea.plugins.tomcat" temporary="true">
+      <predefined_log_file enabled="true" id="Tomcat Localhost Log" />
+      <predefined_log_file enabled="true" id="Tomcat Access Log" />
+      <predefined_log_file id="Tomcat Catalina Log" />
+      <predefined_log_file id="Tomcat Manager Log" />
+      <predefined_log_file id="Tomcat Host Manager Log" />
+      <option name="catalinaBase" value="" />
+      <option name="contextPath" value="/project_jee" />
+      <option name="docBase" value="$PROJECT_DIR$/src/main/webapp" />
+      <option name="extraClassPath" value="" />
+      <option name="port" value="8083" />
+      <option name="tomcatInfo">
+        <TomcatInfo>
+          <option name="name" value="Apache Tomcat/10.1.29" />
+          <option name="path" value="$PROJECT_DIR$/../../../../Program Files/Apache Software Foundation/Tomcat 10.1" />
+          <option name="version" value="10.1.29.0" />
+        </TomcatInfo>
+      </option>
+      <option name="vmOptions" value="" />
+      <module name="project_jee" />
       <method v="2">
         <option name="Make" enabled="true" />
-        <option name="BuildArtifacts" enabled="true">
-          <artifact name="project_jee:war exploded" />
-        </option>
       </method>
     </configuration>
-    <configuration name="etudiant-list.jsp" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" temporary="true" APPLICATION_SERVER_NAME="Tomcat 10.1.29" ALTERNATIVE_JRE_ENABLED="false">
-      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/Admin/etudiant-list.jsp" />
-      <deployment>
-        <artifact name="project_jee:war">
-          <settings>
-            <option name="CONTEXT_PATH" value="/project_jee_war" />
-          </settings>
-        </artifact>
-      </deployment>
-      <server-settings>
-        <option name="BASE_DIRECTORY_NAME" value="e8f4e4ca-0ab0-4c54-8542-887769b977d3" />
-      </server-settings>
-      <predefined_log_file enabled="true" id="Tomcat" />
-      <predefined_log_file enabled="true" id="Tomcat Catalina" />
-      <predefined_log_file id="Tomcat Manager" />
-      <predefined_log_file id="Tomcat Host Manager" />
-      <predefined_log_file id="Tomcat Localhost Access" />
-      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
-        <option name="USE_ENV_VARIABLES" value="true" />
-        <STARTUP>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </STARTUP>
-        <SHUTDOWN>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </SHUTDOWN>
-      </ConfigurationWrapper>
+    <configuration name="Unnamed" type="com.poratu.idea.plugins.tomcat" nameIsGenerated="true">
+      <predefined_log_file enabled="true" id="Tomcat Localhost Log" />
+      <predefined_log_file enabled="true" id="Tomcat Access Log" />
+      <predefined_log_file id="Tomcat Catalina Log" />
+      <predefined_log_file id="Tomcat Manager Log" />
+      <predefined_log_file id="Tomcat Host Manager Log" />
+      <option name="catalinaBase" value="C:\Users\HP\.SmartTomcat\project_jee\project_jee" />
+      <option name="contextPath" value="/project_jee" />
+      <option name="docBase" value="C:\Users\HP\IdeaProjects\project_jee\target\project_jee-1.0-SNAPSHOT " />
+      <option name="extraClassPath" value="" />
+      <option name="port" value="8082" />
+      <option name="tomcatInfo">
+        <TomcatInfo>
+          <option name="name" value="Apache Tomcat/10.1.29" />
+          <option name="path" value="$PROJECT_DIR$/../../../../Program Files/Apache Software Foundation/Tomcat 10.1" />
+          <option name="version" value="10.1.29.0" />
+        </TomcatInfo>
+      </option>
+      <option name="vmOptions" value="" />
+      <module name="project_jee" />
       <method v="2">
         <option name="Make" enabled="true" />
-        <option name="BuildArtifacts" enabled="true">
-          <artifact name="project_jee:war" />
-        </option>
       </method>
     </configuration>
     <list>
       <item itemvalue="Application.com.test.MyHyber.HibernateTest" />
-      <item itemvalue="Application.org.example.HibernateTest" />
+      <item itemvalue="JavaScript Debug.Enseignant-dashboard.jsp" />
       <item itemvalue="JavaScript Debug.admin-dashboard.jsp" />
+      <item itemvalue="Smart Tomcat.Unnamed" />
+      <item itemvalue="Smart Tomcat.Tomcat: project_jee" />
       <item itemvalue="Tomcat Server.Tomcat 10.1.29" />
-      <item itemvalue="Tomcat Server.etudiant-list.jsp" />
-      <item itemvalue="Tomcat Server.admin-dashboard.jsp" />
+      <item itemvalue="Tomcat Server.Enseignant-dashboard.jsp" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Tomcat Server.Enseignant-dashboard.jsp" />
+        <item itemvalue="JavaScript Debug.Enseignant-dashboard.jsp" />
+        <item itemvalue="Smart Tomcat.Tomcat: project_jee" />
         <item itemvalue="Application.com.test.MyHyber.HibernateTest" />
-        <item itemvalue="Tomcat Server.etudiant-list.jsp" />
-        <item itemvalue="Tomcat Server.admin-dashboard.jsp" />
         <item itemvalue="JavaScript Debug.admin-dashboard.jsp" />
-        <item itemvalue="Application.org.example.HibernateTest" />
       </list>
     </recent_temporary>
   </component>
@@ -438,8 +482,26 @@
       <workItem from="1732908822158" duration="3257000" />
       <workItem from="1732918372142" duration="3950000" />
       <workItem from="1732963933675" duration="2120000" />
-      <workItem from="1732973755526" duration="11094000" />
+      <workItem from="1732973755526" duration="14116000" />
+      <workItem from="1733016997109" duration="239000" />
+      <workItem from="1733017257949" duration="1961000" />
+      <workItem from="1733019493589" duration="4390000" />
+      <workItem from="1733049204641" duration="6000" />
+      <workItem from="1733049222661" duration="3000" />
+      <workItem from="1733049239036" duration="20000" />
+      <workItem from="1733049300064" duration="29153000" />
+      <workItem from="1733149355261" duration="688000" />
+      <workItem from="1733150796611" duration="10417000" />
     </task>
+    <task id="LOCAL-00001" summary="Second commit">
+      <option name="closed" value="true" />
+      <created>1733000626780</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1733000626780</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -470,5 +532,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Second commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Second commit" />
   </component>
 </project>

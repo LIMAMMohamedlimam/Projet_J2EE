@@ -1,21 +1,21 @@
 package com.test.MyHyber.Servlet;
 
-import com.test.MyHyber.Entity.Notes;
+import com.test.MyHyber.Entity.Note;
 import com.test.MyHyber.Entity.Etudiant;
 import com.test.MyHyber.Entity.Cours;
 import com.test.MyHyber.dao.NotesDAO;
 import com.test.MyHyber.dao.EtudiantDAO;
 import com.test.MyHyber.dao.CoursDAO;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
 @WebServlet("/NotesServlet")
 public class NotesServlet extends HttpServlet {
@@ -38,10 +38,6 @@ public class NotesServlet extends HttpServlet {
 
         try {
             switch (action) {
-                case "viewByCourse":
-                    validateIdParameter(request, "courseId");
-                    viewNotesByCourse(request, response);
-                    break;
                 case "new":
                     showNewForm(request, response);
                     break;
@@ -53,9 +49,6 @@ public class NotesServlet extends HttpServlet {
                     validateIdParameter(request, "id");
                     deleteNotes(request, response);
                     break;
-                case "manageGrades":
-                    manageGrades(request, response);
-                    break;
                 default:
                     listNotes(request, response);
                     break;
@@ -66,13 +59,13 @@ public class NotesServlet extends HttpServlet {
     }
 
     private void listNotes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Notes> notesList = notesDAO.getAllNotes();
+        List<Note> notesList = notesDAO.getAllNotes();
         request.setAttribute("notesList", notesList);
         request.getRequestDispatcher("notes-list.jsp").forward(request, response);
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Etudiant> etudiants = etudiantDAO.getAllStudents();
+        List<Etudiant> etudiants = etudiantDAO.getAllStudentsList(); // Utilisation de la méthode correcte
         List<Cours> coursList = coursDAO.getAllCours();
         request.setAttribute("etudiants", etudiants);
         request.setAttribute("coursList", coursList);
@@ -81,25 +74,17 @@ public class NotesServlet extends HttpServlet {
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        Notes existingNotes = notesDAO.findNotesById(id);
+        Note existingNotes = notesDAO.findNotesById(id);
         if (existingNotes == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Notes not found");
             return;
         }
-        List<Etudiant> etudiants = etudiantDAO.getAllStudents();
+        List<Etudiant> etudiants = etudiantDAO.getAllStudentsList(); // Utilisation de la méthode correcte
         List<Cours> coursList = coursDAO.getAllCours();
         request.setAttribute("notes", existingNotes);
         request.setAttribute("etudiants", etudiants);
         request.setAttribute("coursList", coursList);
         request.getRequestDispatcher("notes-form.jsp").forward(request, response);
-    }
-
-    private void viewNotesByCourse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int idCours = Integer.parseInt(request.getParameter("courseId"));
-        List<Notes> notesList = notesDAO.getNotesByCourse(idCours);
-        request.setAttribute("notesList", notesList);
-        request.setAttribute("courseId", idCours);
-        request.getRequestDispatcher("notes-by-course.jsp").forward(request, response);
     }
 
     private void deleteNotes(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -108,24 +93,46 @@ public class NotesServlet extends HttpServlet {
         response.sendRedirect("NotesServlet");
     }
 
-    private void manageGrades(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String idEnseignant = request.getParameter("idEnseignant");
-        String idCours = request.getParameter("courseId");
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            String id = request.getParameter("id");
+            String etudiantId = request.getParameter("etudiant");
+            String coursId = request.getParameter("cours");
+            String valeur = request.getParameter("valeur");
 
-        if (idEnseignant != null && idCours != null) {
-            boolean isAuthorized = notesDAO.isTeacherAuthorizedForCourse(Integer.parseInt(idEnseignant), Integer.parseInt(idCours));
-            if (!isAuthorized) {
-                response.sendError(HttpServletResponse.SC_FORBIDDEN, "You are not authorized to manage grades for this course.");
+            if (etudiantId == null || etudiantId.isEmpty() || coursId == null || coursId.isEmpty() || valeur == null || valeur.isEmpty()) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "All fields are required.");
                 return;
             }
 
-            // Fetch grades for this course
-            List<Notes> grades = notesDAO.getNotesByCourse(Integer.parseInt(idCours));
-            request.setAttribute("grades", grades);
-            request.setAttribute("courseId", idCours);
-            request.getRequestDispatcher("manage-grades.jsp").forward(request, response);
-        } else {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Teacher ID and Course ID are required.");
+            BigDecimal noteValue = new BigDecimal(valeur);
+            Etudiant etudiant = etudiantDAO.findStudentById(Integer.parseInt(etudiantId));
+            Cours cours = coursDAO.findCoursById(Integer.parseInt(coursId));
+
+            if (etudiant == null || cours == null) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Etudiant or Cours ID.");
+                return;
+            }
+
+            Note note = (id == null || id.isEmpty()) ? new Note() : notesDAO.findNotesById(Integer.parseInt(id));
+            if (note == null && id != null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Notes not found");
+                return;
+            }
+
+            note.setIdEtudiant(etudiant);
+            note.setIdCours(cours.getIdCours());
+            note.setValeur(noteValue);
+
+            if (id == null || id.isEmpty()) {
+                notesDAO.saveNotes(note);
+            } else {
+                notesDAO.updateNotes(note);
+            }
+            response.sendRedirect("NotesServlet");
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing your request.");
         }
     }
 
@@ -139,4 +146,5 @@ public class NotesServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             throw new ServletException("Invalid " + parameterName + " format", e);
         }
-    }}
+    }
+}

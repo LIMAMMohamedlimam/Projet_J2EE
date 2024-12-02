@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,7 +31,7 @@ public class JsonParser {
             //System.out.println("Password: " + password);
 
             // Option 2: Parse to a custom class
-             userCredentials = objectMapper.readValue(rawJson, UserCredentials.class);
+            userCredentials = objectMapper.readValue(rawJson, UserCredentials.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,19 +39,19 @@ public class JsonParser {
     }
 
     public static UserData getUserDataFromRequest(HttpServletRequest request) throws IOException {
-            // Read JSON body from the request
-            StringBuilder jsonBuilder = new StringBuilder();
-            try (BufferedReader reader = request.getReader()) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    jsonBuilder.append(line);
-                }
+        // Read JSON body from the request
+        StringBuilder jsonBuilder = new StringBuilder();
+        try (BufferedReader reader = request.getReader()) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonBuilder.append(line);
             }
-
-            // Convert JSON string to UserData object
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(jsonBuilder.toString(), UserData.class);
         }
+
+        // Convert JSON string to UserData object
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(jsonBuilder.toString(), UserData.class);
+    }
 
     //public static String parseSingleInput(String input) {
     //    // Regex to match "Lastname Firstname YYYY-MM-DD"

@@ -10,19 +10,19 @@
     <div class="cards">
         <div class="card">
             <a href="CoursServlet?action=myCourses">
-                <img src="${pageContext.request.contextPath}/images/courses-icon.png" alt="Courses">
+                <img src="${pageContext.request.contextPath}courses.jpeg" alt="Courses">
                 <p>Voir mes cours</p>
             </a>
         </div>
         <div class="card">
             <a href="NotesServlet?action=list">
-                <img src="${pageContext.request.contextPath}/images/notes-icon.png" alt="Notes">
+                <img src="${pageContext.request.contextPath}results.png" alt="Notes">
                 <p>Saisir des notes</p>
             </a>
         </div>
         <div class="card">
             <a href="ResultatServlet?action=resultsByCourse">
-                <img src="${pageContext.request.contextPath}/images/results-icon.png" alt="Results">
+                <img src="${pageContext.request.contextPath}results.png" alt="Results">
                 <p>Voir les résultats des cours</p>
             </a>
         </div>

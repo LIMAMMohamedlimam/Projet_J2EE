@@ -1,5 +1,6 @@
 package com.test.MyHyber.dao;
 
+import com.test.MyHyber.Entity.Enseignant;
 import com.test.MyHyber.Util.HibernateUtil;
 import com.test.MyHyber.Entity.Cours;
 import com.test.MyHyber.Entity.Etudiant;
@@ -31,6 +32,13 @@ public class CoursDAO {
     public List<Cours> getAllCours() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("from Cours", Cours.class).list();
+        }
+    }
+
+    public List<Cours> getAllCoursForAssignment() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "select c from Cours c join fetch c.matiere m join fetch c.enseignant e";
+            return session.createQuery(hql, Cours.class).list();
         }
     }
 
@@ -79,8 +87,10 @@ public class CoursDAO {
             transaction = session.beginTransaction();
 
             Cours cours = session.get(Cours.class, idCours);
-            if (cours != null) {
-                cours.setIdEnseignant(idEnseignant);
+            Enseignant enseignant = session.get(Enseignant.class, idEnseignant); // Récupère l'objet Enseignant
+
+            if (cours != null && enseignant != null) {
+                cours.setEnseignant(enseignant); // Associe l'enseignant au cours
                 session.update(cours);
             }
 
@@ -91,6 +101,8 @@ public class CoursDAO {
             throw new RuntimeException("Error assigning teacher to course", e);
         }
     }
+
+
 
     public void assignStudentToCourse(int IdEtudiant, int idCours) {
         Transaction transaction = null;

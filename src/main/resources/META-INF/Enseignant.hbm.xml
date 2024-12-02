@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.test.MyHyber.Entity">
+    <class name="com.test.MyHyber.Entity.Enseignant" table="Enseignant" schema="GestionScolarite">
+        <id name="id" column="id" type="java.lang.Integer">
+            <generator class="identity"/>
+        </id>
+
+        <property name="nom" column="nom" type="string" length="30" not-null="false"/>
+        <property name="prenom" column="prenom" type="string" length="30" not-null="true"/>
+        <property name="dateDeNaissance" column="dateDeNaissance" type="java.time.LocalDate"/>
+        <property name="enseignantUtilisateurFk" column="Enseignant_Utilisateur_fk" type="java.lang.Integer" />
+        <property name="contact" column="contact" type="java.lang.String"/>
+
+    </class>
+</hibernate-mapping>

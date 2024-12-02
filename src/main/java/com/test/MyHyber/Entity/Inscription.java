@@ -1,40 +1,46 @@
 package com.test.MyHyber.Entity;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "inscription")
 public class Inscription {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idInscription;
+	@Id
+	@Column(name = "id", nullable = false)
+	private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "idEtudiant", nullable = false)
-    private Etudiant etudiant;
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JoinColumn(name = "idEtudiant", nullable = false)
+	private Etudiant idEtudiant;
 
-    @ManyToOne
-    @JoinColumn(name = "idCours", nullable = false)
-    private Cours cours;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JoinColumn(name = "idCours", nullable = false)
+	private Cours cours;
 
-    @Temporal(TemporalType.DATE)
-    private Date dateInscription;
+	@Column(name = "dateInscription")
+	private LocalDate dateInscription;
 
-	public int getIdInscription() {
-		return idInscription;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setIdInscription(int idInscription) {
-		this.idInscription = idInscription;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public Etudiant getEtudiant() {
-		return etudiant;
+	public Etudiant getIdEtudiant() {
+		return idEtudiant;
 	}
 
-	public void setEtudiant(Etudiant etudiant) {
-		this.etudiant = etudiant;
+	public void setIdEtudiant(Etudiant idEtudiant) {
+		this.idEtudiant = idEtudiant;
 	}
 
 	public Cours getCours() {
@@ -45,11 +51,12 @@ public class Inscription {
 		this.cours = cours;
 	}
 
-	public Date getDateInscription() {
+	public LocalDate getDateInscription() {
 		return dateInscription;
 	}
 
-	public void setDateInscription(Date dateInscription) {
+	public void setDateInscription(LocalDate dateInscription) {
 		this.dateInscription = dateInscription;
 	}
+
 }

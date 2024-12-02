@@ -7,14 +7,14 @@ import com.test.MyHyber.dao.ResultatDAO;
 import com.test.MyHyber.dao.EtudiantDAO;
 import com.test.MyHyber.dao.MatiereDAO;
 
-import java.io.IOException;
-import java.util.List;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/ResultatServlet")
 public class ResultatServlet extends HttpServlet {
@@ -48,10 +48,6 @@ public class ResultatServlet extends HttpServlet {
                     validateIdParameter(request, "id");
                     deleteResultat(request, response);
                     break;
-                case "average":
-                    validateIdParameter(request, "IdEtudiant");
-                    calculateAverage(request, response);
-                    break;
                 default:
                     listResultats(request, response);
                     break;
@@ -68,7 +64,7 @@ public class ResultatServlet extends HttpServlet {
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Etudiant> etudiants = etudiantDAO.getAllStudents();
+        List<Etudiant> etudiants = etudiantDAO.getAllStudentsList(); // Utilisation de la méthode correcte
         List<Matiere> matieres = matiereDAO.getAllMatieres();
         request.setAttribute("etudiants", etudiants);
         request.setAttribute("matieres", matieres);
@@ -82,7 +78,7 @@ public class ResultatServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Resultat not found");
             return;
         }
-        List<Etudiant> etudiants = etudiantDAO.getAllStudents();
+        List<Etudiant> etudiants = etudiantDAO.getAllStudentsList(); // Utilisation de la méthode correcte
         List<Matiere> matieres = matiereDAO.getAllMatieres();
         request.setAttribute("resultat", existingResultat);
         request.setAttribute("etudiants", etudiants);
@@ -96,29 +92,20 @@ public class ResultatServlet extends HttpServlet {
         response.sendRedirect("ResultatServlet");
     }
 
-    private void calculateAverage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int IdEtudiant = Integer.parseInt(request.getParameter("IdEtudiant"));
-        double average = resultatDAO.calculateAverageByStudent(IdEtudiant);
-        List<Resultat> results = resultatDAO.getResultsByStudent(IdEtudiant);
-
-        request.setAttribute("average", average);
-        request.setAttribute("results", results);
-        request.getRequestDispatcher("resultat-report.jsp").forward(request, response);
-    }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String id = request.getParameter("id");
             String etudiantId = request.getParameter("etudiant");
             String matiereId = request.getParameter("matiere");
-            String releve = request.getParameter("releve");
+            String noteString = request.getParameter("note");
 
-            if (etudiantId == null || etudiantId.isEmpty() || matiereId == null || matiereId.isEmpty() || releve == null || releve.isEmpty()) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "All fields (Etudiant, Matiere, Releve) are required.");
+            if (etudiantId == null || etudiantId.isEmpty() || matiereId == null || matiereId.isEmpty() || noteString == null || noteString.isEmpty()) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "All fields (Etudiant, Matiere, Note) are required.");
                 return;
             }
 
+            float note = Float.parseFloat(noteString);
             Etudiant etudiant = etudiantDAO.findStudentById(Integer.parseInt(etudiantId));
             Matiere matiere = matiereDAO.findMatiereById(Integer.parseInt(matiereId));
 
@@ -135,17 +122,16 @@ public class ResultatServlet extends HttpServlet {
 
             resultat.setEtudiant(etudiant);
             resultat.setMatiere(matiere);
-            resultat.setReleve(releve);
+            resultat.setNote(note);
 
             if (id == null || id.isEmpty()) {
                 resultatDAO.saveResultat(resultat);
             } else {
                 resultatDAO.updateResultat(resultat);
             }
-
             response.sendRedirect("ResultatServlet");
         } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid ID format.");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input format.");
         } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing your request.");
         }
@@ -161,4 +147,5 @@ public class ResultatServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             throw new ServletException("Invalid " + parameterName + " format", e);
         }
-    }}
+    }
+}

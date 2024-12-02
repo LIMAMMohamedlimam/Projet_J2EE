@@ -1,6 +1,7 @@
 package com.test.MyHyber.Util;
 
-import com.cytech.projet_jakarta.model.Utilisateur;
+
+import com.test.MyHyber.Entity.Utilisateur;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -40,7 +41,7 @@ public class JwtUtil {
 
     public static String generateJwt(Utilisateur utilisateur) throws Exception {
 
-        String userId = utilisateur.getId().toString() ;
+        String userId = String.valueOf(utilisateur.getId()) ;
         JSONObject jsonJwt = new JSONObject();
         jsonJwt.put("nom", utilisateur.getNom());
         jsonJwt.put("role", utilisateur.getRole());
