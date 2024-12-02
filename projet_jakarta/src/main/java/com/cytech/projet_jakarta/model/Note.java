@@ -8,7 +8,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "Note")
 public class Note {
     @Id
     @Column(name = "idNotes", nullable = false)
@@ -16,9 +15,14 @@ public class Note {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "idEtudiant", nullable = false)
     private Etudiant idEtudiant;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "idCours", nullable = false)
+    private Cours idCours;
 
     @Column(name = "valeur", precision = 5, scale = 2)
     private BigDecimal valeur;
@@ -37,6 +41,14 @@ public class Note {
 
     public void setIdEtudiant(Etudiant idEtudiant) {
         this.idEtudiant = idEtudiant;
+    }
+
+    public Cours getIdCours() {
+        return idCours;
+    }
+
+    public void setIdCours(Cours idCours) {
+        this.idCours = idCours;
     }
 
     public BigDecimal getValeur() {

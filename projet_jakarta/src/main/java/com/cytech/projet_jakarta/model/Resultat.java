@@ -6,21 +6,29 @@ import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.math.BigDecimal;
+
 @Entity
 public class Resultat {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idResultat", nullable = false)
     private Integer id;
 
-    @Size(max = 50)
-    @Column(name = "releve", length = 50)
-    private String releve;
+
+    @Column(name = "releve", precision = 5, scale = 2)
+    private BigDecimal releve;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "idEtudiant", nullable = false)
+    private Etudiant idEtudiant;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "idEtudiant", nullable = false)
-    private Etudiant idEtudiant;
+    @JoinColumn(name = "idMatiere", nullable = false)
+    private Matiere idMatiere;
 
     public Integer getId() {
         return id;
@@ -30,11 +38,11 @@ public class Resultat {
         this.id = id;
     }
 
-    public String getReleve() {
+    public BigDecimal getReleve() {
         return releve;
     }
 
-    public void setReleve(String releve) {
+    public void setReleve(BigDecimal releve) {
         this.releve = releve;
     }
 
@@ -44,6 +52,14 @@ public class Resultat {
 
     public void setIdEtudiant(Etudiant idEtudiant) {
         this.idEtudiant = idEtudiant;
+    }
+
+    public Matiere getIdMatiere() {
+        return idMatiere;
+    }
+
+    public void setIdMatiere(Matiere idMatiere) {
+        this.idMatiere = idMatiere;
     }
 
 }

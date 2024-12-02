@@ -35,6 +35,7 @@ public class CoursServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("CoursServlet doGet ");
         String action = request.getParameter("action");
         if (action == null) action = "list";
 

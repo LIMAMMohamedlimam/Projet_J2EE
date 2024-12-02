@@ -13,7 +13,6 @@
         <property name="dateDeNaissance" column="dateDeNaissance" type="java.time.LocalDate"/>
         <property name="etudUtiFk" column="Etud_uti_fk" type="java.lang.Integer" />
 
-        <many-to-one name="utilisateur" class="com.cytech.projet_jakarta.model.Enseignant" column="Etud_uti_fk" not-null="true"/>
 
 
     </class>

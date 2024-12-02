@@ -231,6 +231,8 @@
 
     <script>
         function showAlert(index) {
+            document.querySelector('.loader').style.display = 'none';
+            document.querySelector('.loader').classList.remove('animate');
             document.getElementById("p-popup").innerText = index;
             document.getElementById('customAlert').style.display = 'block';
             document.getElementById('customAlertOverlay').style.display = 'block';
@@ -282,7 +284,7 @@
                     console.log('Login successful ', data);
                     const josnData = data ;
                     if(josnData.role === "enseignant"){
-                        window.location.href = 'Enseignant/Enseignant-dashboard.jsp' ;
+                        window.location.href = 'Enseignant/enseignant-dashboard.jsp' ;
                     }else if(josnData.role === "etudiant"){
                         window.location.href = 'Etudiant/etudiant-dashboard.jsp' ;
                     }else if(josnData.role === "admin"){
@@ -294,7 +296,6 @@
                 .catch(error => {
                     console.error('Error:', error);
                     showAlert(error.message);
-                    //alert(error.message);
                     document.querySelector('.loader').style.display = 'none';
                     document.querySelector('.loader').classList.remove('animate');
                 });

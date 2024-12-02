@@ -13,6 +13,11 @@
     <mapping resource="Utilisateur.hbm.xml"/>
     <mapping resource="Etudiant.hbm.xml"/>
     <mapping resource="Enseignant.hbm.xml"/>
+    <mapping resource="Cours.hbm.xml"/>
+    <mapping resource="Note.hbm.xml"/>
+    <mapping resource="Matiere.hbm.xml"/>
+    <mapping resource="Inscription.hbm.xml"/>
+    <mapping resource="Resultat.hbm.xml"/>
 
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
