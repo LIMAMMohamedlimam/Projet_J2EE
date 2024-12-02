@@ -82,6 +82,7 @@ public class logincontroller extends HttpServlet {
             } else {
                 // User not found: Redirect to login page with an error message
                 jsonResponse.put("Error", "Invalid email or password");
+                System.out.println("Invalid email or password for user" + email + password);
                 response.setContentType("application/json");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.getWriter().write(jsonResponse.toString());
@@ -90,6 +91,7 @@ public class logincontroller extends HttpServlet {
         } catch (Exception e) {
             // Handle unexpected errors
             jsonResponse.put("erreur", "Exception occured");
+            System.out.println("Exception occured" );
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write(jsonResponse.toString());
